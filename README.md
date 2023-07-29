@@ -29,24 +29,17 @@ cd server
 5. Create a `.env` file in the root directory and add your Instagram username and password:
 
     ```bash
-# This is to access the db, you need it to access your user account and strategies portfolios https://cloud.mongodb.com/
-MONGO_URI=
-MONGO_PASSWORD=
-# This is a random code you can define, used to authenticate
-JWT_SECRET=
-#This is for Elevenlabs API
-ELEVEN_API_KEY=
-#Pinecone Vector Database
-PINECONE_API_KEY=
-PINECONE_ENV=
-#Optional
-SERPAPI_API_KEY=
-#OpenAI
-OPENAI_API_KEY=
-#Redis Optional
-CACHE_REDIS_URL=
-#HuggingFace Optional
-HUGGING_FACE_API_KEY=
+
+        MONGO_URI=
+        MONGO_PASSWORD=
+        JWT_SECRET=
+        ELEVEN_API_KEY=
+        PINECONE_API_KEY=
+        PINECONE_ENV=
+        SERPAPI_API_KEY=
+        OPENAI_API_KEY=
+        CACHE_REDIS_URL=
+        HUGGING_FACE_API_KEY=
     ```
 
 6. Run the script:
