@@ -36,13 +36,22 @@
             </table>
         </div>
 
-        <!-- Section 3: Generate the podcast -->
+        <!-- Section 3: Transcript -->
+        <div class="my-4" id="transcriptSection">
+            <div id="loading" class="mt-3" style="display: none;">
+                <p>Loading... Please wait.</p>
+                <div style="padding-top:101.053%;position:relative;">
+                    <iframe src="https://gifer.com/embed/ZKZg" width="100%" height="100%" style='position:absolute;top:0;left:0;' frameBorder="0" allowFullScreen></iframe>
+                </div>
+                <p><a href="https://gifer.com">via GIFER</a></p>
+            </div>
+        </div>
+
+        <!-- Section 4: Generate the podcast -->
         <div class="my-4">
             <h2>Generate the podcast</h2>
             <button id="generateBtn" class="btn btn-primary">Generate podcast</button>
-            <div id="podcastLink" class="mt-3"></div>
         </div>
-    </div>
 
     <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -51,11 +60,14 @@
     <script>
         $(document).ready(function() {
             var contentCount = 0;
-    
+
             $('#sendBtn').click(function(e) {
                 e.preventDefault();
+                $('#loading').show(); // Show the loading message and spinner
                 var content = $('#contentInput').val();
                 if (content) {
+                     
+                    $('#transcriptSection').html(''); // Clear any previous result
                     $.ajax({
                         url: '/send_content',
                         type: 'POST',
@@ -65,16 +77,41 @@
                             contentCount++;
                             $('#contentTable').append('<tr><th scope="row">' + contentCount + '</th><td>' + content + '</td></tr>');
                             $('#contentInput').val('');
+                            $('#transcriptSection').html('<h5>Here is the current transcript for the podcast</h5><p>' + response.result + '</p>'); // Display the result in the transcript div
+                            $('#loading').hide(); // Hide the loading message and spinner
+                        },
+                        error: function() {
+                            $('#transcriptSection').html('<p>There was an error sending your content. Please try again.</p>');
+                            $('#loading').hide(); // Hide the loading message and spinner
                         }
                     });
                 }
             });
-    
+
             $('#generateBtn').click(function() {
-                $('#podcastLink').html('<a href="podcast.mp3">Here is the link of your podcast: podcast.mp3</a>');
+                $('#loading').show(); // Show the loading message and spinner
+                $('#transcriptSection').html(''); // Clear any previous result
+
+                $.ajax({
+                    url: '/send_content',
+                    type: 'POST',
+                    data: JSON.stringify({ 'content': $('#contentInput').val() }),
+                    contentType: 'application/json;charset=UTF-8',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            $('#transcriptSection').html('<h5>Here is the current transcript for the podcast</h5><p>' + response.result + '</p>');
+                        } else {
+                            $('#transcriptSection').html('<p>There was an error generating your podcast. Please try again.</p>');
+                        }
+                        $('#loading').hide(); // Hide the loading message and spinner
+                    },
+                    error: function() {
+                        $('#transcriptSection').html('<p>There was an error generating your podcast. Please try again.</p>');
+                        $('#loading').hide(); // Hide the loading message and spinner
+                    }
+                });
             });
         });
     </script>
-    
 </body>
 </html>
