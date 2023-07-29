@@ -1,9 +1,12 @@
 import React from "react";
+import HeroSection from "./heroSection";
+import MidSection from "./midSection";
 function LandingPage() {
   return (
     <>
-      <div id="landingPage" className="d-flex justify-content-center">
-        <h1>Hello!!!</h1>
+      <div id="landingPage">
+        <HeroSection />
+        <MidSection />
       </div>
     </>
   );
