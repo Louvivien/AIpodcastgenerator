@@ -1,6 +1,16 @@
 from revChatGPT.V1 import Chatbot
+import os
+from dotenv import load_dotenv
+
+
+
+# Get the OPENAI_API_AUTHORIZATION from .env file
+OPENAI_API_AUTHORIZATION = os.getenv('OPENAI_API_AUTHORIZATION')
+
+
+
 chatbot = Chatbot(config={
-  "access_token": "token",
+  "access_token": OPENAI_API_AUTHORIZATION,
   "model": "gpt-4-plugins",
 })
 prompt = "how many beaches does portugal have?"
