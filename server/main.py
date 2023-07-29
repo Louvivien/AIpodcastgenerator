@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 from pinecone_utils import init_pinecone
 from helpers import home, podcast
 import logging
-import os
+from audio_transcription import transcribe_audio
+
 
 # Load environment variables
 load_dotenv()
