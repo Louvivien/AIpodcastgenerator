@@ -14,8 +14,25 @@ from langchain.vectorstores.pinecone import Pinecone
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
+from typing import List
 import langchain
 import logging
+from langchain.schema import Document
+from langchain.callbacks import get_openai_callback
+from langchain.document_loaders import (
+    CSVLoader,
+    DirectoryLoader,
+    GitLoader,
+    NotebookLoader,
+    OnlinePDFLoader,
+    PythonLoader,
+    TextLoader,
+    UnstructuredFileLoader,
+    UnstructuredHTMLLoader,
+    UnstructuredPDFLoader,
+    UnstructuredWordDocumentLoader,
+    WebBaseLoader,
+)
 
 langchain.debug
 
@@ -32,6 +49,8 @@ AUDIO_FORMAT = "audio/mp3"
 openai_api_key = os.getenv('OPENAI_API_KEY')
 db_password = os.getenv('DB_PASSWORD')
 eleven_api_key = os.getenv('ELEVEN_API_KEY')
+
+CHUNK_SIZE = 1000
 
 #PineCone Utils
 def init_pinecone():
@@ -68,79 +87,24 @@ def create_pinecone_vector_extra(texts, index_name):
 def home():
     # Renderiza la plantilla "podcast.html" también para la ruta raíz
     return render_template('podcast.html', episode_text='')
-# Ruta para la página del podcast
+
+def read_episode_text():
+    try:
+        with open("episode_text.txt", "r") as episode_file:
+            return episode_file.read()
+    except FileNotFoundError:
+        print("El archivo 'episode_text.txt' no fue encontrado.")
+    except Exception as e:
+        print(f"Error al leer el archivo: {str(e)}")
+    return None
+
 @app.route('/podcast')
 def podcast():
-    # Simulación del texto del episodio
-    episode_text = """
-Title: The Hilarious Quest for the Quantum Cupcake
+    # Leer el texto del episodio desde el archivo
+    episode_text = read_episode_text()
 
-[Introduction Music]
-
-Host (H): Welcome, everyone, to another exciting episode of "Science Shenanigans"! I'm your host, Dr. Chuckles, and today, we have two brilliant guests joining us to delve into the mind-bending world of quantum physics. First up, we have Dr. Sparkle, a quantum physicist with a flair for humor.
-
-Dr. Sparkle (S): Thanks for having me, Dr. Chuckles! I promise we won't get too entangled in our discussions today.
-
-H: [Laughs] I'm already entangled with laughter! And our second guest is Dr. Witty, a theoretical physicist known for her witty remarks and out-of-this-world theories.
-
-Dr. Witty (W): Oh, you flatter me, Dr. Chuckles! I've been theorizing about the quantum origins of dad jokes lately.
-
-H: [Laughs] That sounds both enlightening and entertaining! So, let's dive right into it - quantum physics and cupcakes. Dr. Sparkle, is there any connection between the two?
-
-S: Well, you see, in the quantum world, things can be in multiple states at once - like a cupcake being both chocolate and vanilla simultaneously!
-
-W: Ah, the elusive "chocanilla" cupcake! I've been trying to find that flavor all my life.
-
-H: [Laughs] Quantum cupcake cravings aside, can you explain superposition for our listeners?
-
-S: Absolutely! Superposition is like Schrödinger's cat being both alive and dead until you open the box. But with cupcakes, it's like having all the flavors in the bakery display until you pick one.
-
-W: So, in theory, I can have all the cupcakes and none of the guilt? Sign me up!
-
-H: [Laughs] The dream of every dessert enthusiast! Now, let's talk about quantum entanglement. Is it like getting your headphones tangled, but on a subatomic level?
-
-S: That's a perfect analogy! Imagine two entangled particles behaving like your earphones, except when you untangle them, their states remain correlated, no matter the distance.
-
-W: It's like the universe's way of saying, "No matter how far apart you are, you're stuck together!"
-
-H: [Laughs] Quantum entanglement - the ultimate cosmic relationship status! And what about quantum computing?
-
-S: Ah, quantum computing is like having an army of cupcake-hungry ants exploring all the flavors at the same time, hoping to find the tastiest one!
-
-W: And when they finally find it, it's like the Eureka moment of having that "Aha!" after a perfect punchline!
-
-H: [Laughs] Brilliant! A cupcake-loving ant army exploring flavors - I'd pay to see that! Now, let's talk about the many-worlds interpretation.
-
-S: Ah, the multiverse of cupcakes! In one universe, the cupcake is devoured in one bite, while in another, it's savored in infinite nibbles.
-
-W: And in yet another universe, someone's on a perpetual diet, forever denied the joy of cupcakes.
-
-H: [Laughs] Poor them! I'd never want to live in that universe. And finally, the big question - can you quantum teleport a cupcake?
-
-S: In theory, you could, but I'm afraid you might end up with a cupcake splattered across the lab walls.
-
-W: But what a tasty mess that would be!
-
-H: [Laughs] Indeed! It's like a baking disaster of cosmic proportions. Now, before we wrap up, any final thoughts?
-
-S: Remember, folks, science doesn't have to be all serious. Embrace the humor, and you'll find the universe has a great sense of humor too.
-
-W: And never stop asking questions, even if they seem as absurd as searching for a quantum cupcake.
-
-H: [Laughs] Wise words from two quantum jesters! Thank you, Dr. Sparkle and Dr. Witty, for an enlightening and amusing discussion.
-
-S: Thank you for having us, Dr. Chuckles. It was a quantum delight!
-
-W: Indeed, an experience worth superimposing on! Keep exploring, everyone!
-
-[Outro Music]
-
-H: And that's a wrap, folks! Join us next time for more "Science Shenanigans." Until then, stay curious and keep laughing!
-    """
-
-    # Renderiza la plantilla "podcast.html" y pasa el texto del episodio como parámetro
+    # Renderizar la plantilla "podcast.html" y pasar el texto del episodio como parámetro
     return render_template('podcast.html', episode_text=episode_text)
-
 
 def valid_url(url):
     """valid_url
@@ -193,6 +157,83 @@ def generate_audio(selected_text):
     except Exception as e: 
         print(str(e))
         return jsonify(message='Error retrieving the audio from ElevenLabs'), 500
+
+
+# llm = OpenAI(temperature=0.9)
+
+# texto = "Cual seria un buen nombre para una empresa de Chrochet en Chile?"
+# print(texto)
+
+# with get_openai_callback() as cb:
+#     print(llm(texto))
+#     print(f"Total Tokens: {cb.total_tokens}")
+#     print(f"Prompt Tokens: {cb.prompt_tokens}")
+#     print(f"Completion Tokens: {cb.completion_tokens}")
+#     print(f"Total Cost (USD): ${cb.total_cost}")
+
+#Snippet of code from DataChad
+def load_any_data_source(data_source: str, chunk_size: int = CHUNK_SIZE
+) -> List[Document]:
+    # Ugly thing that decides how to load data
+    # It aint much, but it's honest work
+    is_text = data_source.endswith(".txt")
+    is_web = data_source.startswith("http")
+    is_pdf = data_source.endswith(".pdf")
+    is_csv = data_source.endswith("csv")
+    is_html = data_source.endswith(".html")
+    is_git = data_source.endswith(".git")
+    is_notebook = data_source.endswith(".ipynb")
+    is_doc = data_source.endswith(".doc")
+    is_py = data_source.endswith(".py")
+    is_dir = os.path.isdir(data_source)
+    is_file = os.path.isfile(data_source)
+
+    loader = None
+    if is_dir:
+        loader = DirectoryLoader(data_source, recursive=True, silent_errors=True)
+    elif is_web:
+        if is_pdf:
+            loader = OnlinePDFLoader(data_source)
+        else:
+            loader = WebBaseLoader(data_source)
+    elif is_file:
+        if is_text:
+            loader = TextLoader(data_source, encoding="utf-8")
+        elif is_notebook:
+            loader = NotebookLoader(data_source)
+        elif is_pdf:
+            loader = UnstructuredPDFLoader(data_source)
+        elif is_html:
+            loader = UnstructuredHTMLLoader(data_source)
+        elif is_doc:
+            loader = UnstructuredWordDocumentLoader(data_source)
+        elif is_csv:
+            loader = CSVLoader(data_source, encoding="utf-8")
+        elif is_py:
+            loader = PythonLoader(data_source)
+        else:
+            loader = UnstructuredFileLoader(data_source)
+    try:
+        # Chunk size is a major trade-off parameter to control result accuracy over computaion
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size, chunk_overlap=0
+        )
+        docs = loader.load_and_split(text_splitter)
+        logger.info(f"Loaded: {len(docs)} document chucks")
+        return docs
+    except Exception as e:
+        if loader:
+            msg = str(e)
+        else:
+            msg = f"No Loader found for your data source. Consider contributing: {REPO_URL}!"
+        # Dispara el mensaje de error directamente aquí
+        print(f"Error while loading data: {msg}")
+        # O realiza alguna otra acción en caso de error, si es necesario
+        return []
+
+
+
+
 
 
 
