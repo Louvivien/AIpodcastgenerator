@@ -5,10 +5,27 @@ import os
 from flask_cors import CORS
 from dotenv import load_dotenv
 from urllib.parse import urlparse
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.llms import OpenAI
+import openai
+from langchain.chat_models import ChatOpenAI
+import pinecone
+from langchain.vectorstores.pinecone import Pinecone
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.prompts import PromptTemplate
+from langchain.chat_models import ChatOpenAI
+import langchain
+import logging
+
+langchain.debug
 
 load_dotenv()
 app = Flask(__name__)
 CORS(app)
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.StreamHandler())
 
 AUDIO_FORMAT = "audio/mp3"
 # Environment variables
@@ -16,6 +33,34 @@ openai_api_key = os.getenv('OPENAI_API_KEY')
 db_password = os.getenv('DB_PASSWORD')
 eleven_api_key = os.getenv('ELEVEN_API_KEY')
 
+#PineCone Utils
+def init_pinecone():
+    pinecone_api_key = os.environ["PINECONE_API_KEY"]
+    pinecone_env = os.environ["PINECONE_ENV"]
+
+    pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
+
+
+def create_pinecone_vector(pages, index_name):
+    embeddings = OpenAIEmbeddings()
+    vectordb = Pinecone.from_documents(
+        pages,
+        embeddings,
+        index_name=index_name
+        )
+
+    logger.info('Pinecone vector created!')
+
+    return vectordb
+
+
+def create_pinecone_vector_extra(texts, index_name):
+    embeddings = OpenAIEmbeddings()
+    vectordb = Pinecone.from_texts([t.page_content for t in texts], embeddings, index_name=index_name)
+
+    logger.info('Pinecone vector created!')
+
+    return vectordb
 # Ruta para la página de inicio
 @app.route('/')
 #def home():
@@ -106,6 +151,18 @@ def valid_url(url):
     except ValueError:
         return False
     
+# Transcribe audio using OpenAI Whisper API
+def transcribe_audio(audio_file_path):
+    try:
+        with open(audio_file_path, "rb") as audio_file:
+            response = openai.Audio.transcribe("whisper-1", audio_file)
+        return response["text"]
+    except Exception as e:
+        print(f"Error calling Whisper API: {str(e)}")
+        return None
+
+
+   
 def generate_audio(selected_text):
     # Voice using Eleven API 
     voice= "Bella" 
