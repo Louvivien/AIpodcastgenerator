@@ -1,6 +1,20 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
+from elevenlabs import generate
+import datetime
+import os  
+from flask_cors import CORS
+from dotenv import load_dotenv
+from urllib.parse import urlparse
 
+load_dotenv()
 app = Flask(__name__)
+CORS(app)
+
+AUDIO_FORMAT = "audio/mp3"
+# Environment variables
+openai_api_key = os.getenv('OPENAI_API_KEY')
+db_password = os.getenv('DB_PASSWORD')
+eleven_api_key = os.getenv('ELEVEN_API_KEY')
 
 # Ruta para la página de inicio
 @app.route('/')
@@ -14,25 +28,116 @@ def home():
 def podcast():
     # Simulación del texto del episodio
     episode_text = """
-    Welcome to the Elevenlabs Hackathon podcast!
+Title: The Hilarious Quest for the Quantum Cupcake
 
-    Host 1: Hey there! Welcome back to another exciting episode of our podcast. I'm your host, ChatGPT-1.
-    
-    Host 2: And I'm your co-host, ChatGPT-2. We have a fascinating topic to discuss today.
-    
-    Host 1: Absolutely! Today, we are going to explore how we use Elevenlabs as TTS (Text-to-Speech) to generate audio from the text.
-    
-    Host 2: It's a fantastic technology that allows us to convert written text into spoken words seamlessly.
-    
-    Host 1: Indeed! We'll also talk about our experiences at the Elevenlabs Hackathon and some of the innovative projects we saw there.
-    
-    Host 2: So stay tuned, grab a cup of coffee, and let's dive into the world of TTS and the wonderful Hackathon experience.
-    
-    Host 1: Let's roll the intro music and get started!
+[Introduction Music]
+
+Host (H): Welcome, everyone, to another exciting episode of "Science Shenanigans"! I'm your host, Dr. Chuckles, and today, we have two brilliant guests joining us to delve into the mind-bending world of quantum physics. First up, we have Dr. Sparkle, a quantum physicist with a flair for humor.
+
+Dr. Sparkle (S): Thanks for having me, Dr. Chuckles! I promise we won't get too entangled in our discussions today.
+
+H: [Laughs] I'm already entangled with laughter! And our second guest is Dr. Witty, a theoretical physicist known for her witty remarks and out-of-this-world theories.
+
+Dr. Witty (W): Oh, you flatter me, Dr. Chuckles! I've been theorizing about the quantum origins of dad jokes lately.
+
+H: [Laughs] That sounds both enlightening and entertaining! So, let's dive right into it - quantum physics and cupcakes. Dr. Sparkle, is there any connection between the two?
+
+S: Well, you see, in the quantum world, things can be in multiple states at once - like a cupcake being both chocolate and vanilla simultaneously!
+
+W: Ah, the elusive "chocanilla" cupcake! I've been trying to find that flavor all my life.
+
+H: [Laughs] Quantum cupcake cravings aside, can you explain superposition for our listeners?
+
+S: Absolutely! Superposition is like Schrödinger's cat being both alive and dead until you open the box. But with cupcakes, it's like having all the flavors in the bakery display until you pick one.
+
+W: So, in theory, I can have all the cupcakes and none of the guilt? Sign me up!
+
+H: [Laughs] The dream of every dessert enthusiast! Now, let's talk about quantum entanglement. Is it like getting your headphones tangled, but on a subatomic level?
+
+S: That's a perfect analogy! Imagine two entangled particles behaving like your earphones, except when you untangle them, their states remain correlated, no matter the distance.
+
+W: It's like the universe's way of saying, "No matter how far apart you are, you're stuck together!"
+
+H: [Laughs] Quantum entanglement - the ultimate cosmic relationship status! And what about quantum computing?
+
+S: Ah, quantum computing is like having an army of cupcake-hungry ants exploring all the flavors at the same time, hoping to find the tastiest one!
+
+W: And when they finally find it, it's like the Eureka moment of having that "Aha!" after a perfect punchline!
+
+H: [Laughs] Brilliant! A cupcake-loving ant army exploring flavors - I'd pay to see that! Now, let's talk about the many-worlds interpretation.
+
+S: Ah, the multiverse of cupcakes! In one universe, the cupcake is devoured in one bite, while in another, it's savored in infinite nibbles.
+
+W: And in yet another universe, someone's on a perpetual diet, forever denied the joy of cupcakes.
+
+H: [Laughs] Poor them! I'd never want to live in that universe. And finally, the big question - can you quantum teleport a cupcake?
+
+S: In theory, you could, but I'm afraid you might end up with a cupcake splattered across the lab walls.
+
+W: But what a tasty mess that would be!
+
+H: [Laughs] Indeed! It's like a baking disaster of cosmic proportions. Now, before we wrap up, any final thoughts?
+
+S: Remember, folks, science doesn't have to be all serious. Embrace the humor, and you'll find the universe has a great sense of humor too.
+
+W: And never stop asking questions, even if they seem as absurd as searching for a quantum cupcake.
+
+H: [Laughs] Wise words from two quantum jesters! Thank you, Dr. Sparkle and Dr. Witty, for an enlightening and amusing discussion.
+
+S: Thank you for having us, Dr. Chuckles. It was a quantum delight!
+
+W: Indeed, an experience worth superimposing on! Keep exploring, everyone!
+
+[Outro Music]
+
+H: And that's a wrap, folks! Join us next time for more "Science Shenanigans." Until then, stay curious and keep laughing!
     """
 
     # Renderiza la plantilla "podcast.html" y pasa el texto del episodio como parámetro
     return render_template('podcast.html', episode_text=episode_text)
+
+
+def valid_url(url):
+    """valid_url
+    """
+    try:
+        result = urlparse(url)
+        return all([result.scheme, result.netloc])
+    except ValueError:
+        return False
+    
+def generate_audio(selected_text):
+    # Voice using Eleven API 
+    voice= "Bella" 
+
+    # Get current timestamp 
+    timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S") 
+
+    # File name with timestamp 
+    nombre_archivo = f"audio{timestamp}.mp3" 
+
+    try: 
+        # Generate audio using Eleven API 
+        audio = generate(text=selected_text, voice=voice, api_key=eleven_api_key) 
+
+        # Save the audio to a file 
+        with open(nombre_archivo, "wb") as file: 
+            file.write(audio) 
+
+        with open(nombre_archivo, "rb") as file: 
+            audio_data = file.read() 
+
+        # Ensure to delete the audio file after sending it to the client 
+        #os.remove("audio.mp3") 
+
+        # Return the audio as a response 
+        return audio_data, 200, {'Content-Type': 'audio/mpeg'} 
+
+    except Exception as e: 
+        print(str(e))
+        return jsonify(message='Error retrieving the audio from ElevenLabs'), 500
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
