@@ -3,3 +3,4 @@ flask-cors
 python-dotenv
 requests
 openai
+youtube_transcript_api
