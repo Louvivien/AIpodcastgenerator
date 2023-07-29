@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Elevenlabs Hackathon Podcast</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Elevenlabs Hackathon Podcast</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="episode">
+                <h2>Episode Transcript</h2>
+                <pre>{{ episode_text }}</pre>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Elevenlabs Hackathon Podcast</p>
+        </div>
+    </footer>
+</body>
+</html>
+
