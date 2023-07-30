@@ -4,7 +4,7 @@ import LandingPage from "./LandingPage/index";
 import Login from "./Authentication/Login";
 import SignUp from "./Authentication/SignUp";
 import ForgotPassword from "./Authentication/ForgotPassword";
-import PodcastDownloader from "./podcastDownloader/podcastDownloader";
+import PodcastDownloader from "./podcastDownloader/index";
 import PodcastGenerator from "./PodcastGenerator/index";
 import NoPage from "./NoPage";
 

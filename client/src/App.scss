@@ -28,6 +28,19 @@
   top: 222%;
   z-index: -1;
 }
+.arrow2 {
+  position: absolute;
+  right: 21%;
+  width: 12%;
+  top: 55%;
+}
+.cartoon2 {
+  position: absolute;
+  left: 14%;
+  width: 33%;
+  top: 21%;
+  z-index: -1;
+}
 @media screen and (max-width: 768px) {
   .plane2 {
     display: none;
@@ -36,6 +49,12 @@
     display: none;
   }
   .cartoon {
+    display: none;
+  }
+  .arrow2 {
+    display: none;
+  }
+  .cartoon2 {
     display: none;
   }
 }

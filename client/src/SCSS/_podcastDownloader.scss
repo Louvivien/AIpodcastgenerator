@@ -1,5 +1,22 @@
 #podcastDownloader {
+  margin-top: 20%;
   h1 {
-    color: green;
+    font-family: Roboto;
+    font-size: 87px;
+    font-weight: 900;
+    line-height: 102px;
+    letter-spacing: 0em;
+    text-align: center;
+  }
+  p {
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0.005em;
+    text-align: center;
+  }
+  div {
+    text-align: center;
   }
 }
