@@ -1,23 +1,33 @@
-from flask import Flask, render_template , jsonify, request
+from flask import Flask, render_template , jsonify, request, send_file
+import io
 from flask_cors import CORS
 from dotenv import load_dotenv
 import logging
 import requests
 import json
 from utils.openai_utils import askGPT
+from utils.elevenlabs_utils import *
 import openai
 import os
 import youtube_transcript_api
 from youtube_transcript_api.formatters import TextFormatter
+from elevenlabs import set_api_key
+from flask_cors import CORS, cross_origin
+
+
+
+
+
 
 
 
 # Load environment variables
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
+set_api_key(os.getenv('ELEVENLABS_API_KEY'))
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -29,11 +39,11 @@ def welcome():
     return render_template('home.html')
 
 
-
 @app.route('/send_content', methods=['POST'])
 def send_content():
 
-    content = request.get_json().get('content')
+    data = request.get_json()
+    content = data.get('content')
     
     if 'youtu.be' in content or 'youtube.com' in content:
       video_id = content[content.find('.be/')+4:] if 'youtu.be' in content else content[content.find('?v=')+3:]
@@ -42,11 +52,20 @@ def send_content():
       text_formatted = (formatter.format_transcript(srt)).replace("\n"," ").split()
       text_formatted = text_formatted[:15000]
       text_formatted = ' '.join(text_formatted)
-      prompt = f"Make a dialogue between two people (give them names) for a podcast based on the following content, make this fun and entertaining, less robotic and more natural, here is the content : {text_formatted}"
+      prompt = f"Make a dialogue between two people (give them names {data['speaker1']} and {data['speaker2']} respectively) for a podcast based on the following content, make this fun and entertaining, less robotic and more natural, here is the content : {text_formatted}"
       result = askGPT(prompt)
       print(result)
+
+      response = generate_audio(result, data['speaker1'], data['speaker2'],
+                     data['speaker1_age'], data['speaker2_age'],
+                     data['speaker1_gender'], data['speaker2_gender'],
+                     data['speaker1_accent'], data['speaker2_accent'])
+
       # Return the result from the askGPT function
-      return jsonify({'status': 'success', 'result': result})
+      if response:
+          return jsonify({'status': 'success', 'result': result})
+      else:
+          return jsonify({'status': 'error', 'result': 'Failed to generate audio'})
 
     else:
 
@@ -68,17 +87,34 @@ def send_content():
       article = response.text
       
       # Call the ChatGPT
-      prompt = f"Make a dialogue between two people (give them names) for a podcast about the content of the following article, make this fun and entertaining, here is the article content : {article}"
+      prompt = f"Make a dialogue between two people (give them names {data['speaker1']} and {data['speaker2']} respectively) for a podcast about the content of the following article, make this fun and entertaining, here is the article content : {article}"
       result = askGPT(prompt)
 
       print(result)
+      response = generate_audio(result, data['speaker1'], data['speaker2'],
+                     data['speaker1_age'], data['speaker2_age'],
+                     data['speaker1_gender'], data['speaker2_gender'],
+                     data['speaker1_accent'], data['speaker2_accent'])
 
-      # Return the result from the askGPT function
-      return jsonify({'status': 'success', 'result': result})
+      if response:
+          return jsonify({'status': 'success', 'result': result})
+      else:
+          return jsonify({'status': 'error', 'result': 'Failed to generate audio'})
 
+@cross_origin()
+@app.route('/download_audio', methods=['GET'])
+def download_audio():
+    
+    audio_file_path = 'podcast.mp3'
+    # Set the response content type to 'audio/mpeg'
+    headers = {
+        'Content-Type': 'audio/mpeg',
+        'Content-Disposition': 'attachment; filename=audio_file.mp3'
+    }
+
+    # Send the file-like object as a response with appropriate headers
+    return send_file(audio_file_path, mimetype='audio/mp3', as_attachment=True)
 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
-
-
