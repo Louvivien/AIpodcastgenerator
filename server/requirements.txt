@@ -4,3 +4,5 @@ python-dotenv
 requests
 openai
 youtube_transcript_api
+elevenlabs
+pydub
