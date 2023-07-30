@@ -1,3 +1,116 @@
 #midSection {
   background-color: #fdecec;
+  .headings {
+    p {
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 1%;
+      text-align: center;
+      color: #f54748;
+    }
+    h1 {
+      font-family: "Poppins", sans-serif;
+      font-weight: 700;
+      font-size: 40px;
+      line-height: 54px;
+      text-align: center;
+      color: #2e2e2e;
+    }
+  }
+  .card {
+    margin: 0 auto;
+    height: 100%;
+  }
+  .card1 {
+    .hand {
+      width: 45%;
+      margin-left: 23%;
+    }
+    .card-body {
+      margin-top: -10%;
+    }
+    .lock {
+      width: 20%;
+      margin-left: 39%;
+      position: absolute;
+    }
+    h1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 33px;
+      letter-spacing: -1%;
+    }
+    p {
+      font-family: "Poppins", sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 25px;
+      text-align: center;
+    }
+  }
+  .card2 {
+    .subtract1 {
+      width: 23%;
+      margin-top: 6%;
+      position: absolute;
+      margin-left: -34%;
+    }
+    .card-body {
+      margin-top: 14%;
+    }
+    .subtract2 {
+      width: 14%;
+      margin-left: 51%;
+    }
+    h1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 33px;
+      letter-spacing: -1%;
+    }
+    p {
+      font-family: "Poppins", sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 25px;
+      text-align: center;
+    }
+  }
+  .card3 {
+    .car {
+      width: 40%;
+      margin-left: 28%;
+      margin-bottom: -35%;
+    }
+    .card-body {
+      margin-top: 7%;
+    }
+    h1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 33px;
+      letter-spacing: -1%;
+    }
+    p {
+      font-family: "Poppins", sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 25px;
+      text-align: center;
+    }
+  }
 }

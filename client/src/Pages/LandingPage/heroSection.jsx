@@ -10,10 +10,10 @@ function HeroSection() {
         style={{ marginTop: "-15px" }}
       >
         <div className="row">
-          <div className="col-6 ">
+          <div className="col-sm-12 col-md-6">
             <div className="row">
-              <div className="col-1 "></div>
-              <div className="col-11">
+              <div className="col-sm-0 col-md-1 "></div>
+              <div className="col-sm-12 col-md-11">
                 <div className="mt-4">
                   <span
                     style={{
@@ -47,7 +47,7 @@ function HeroSection() {
                 </p>
                 <a
                   className="btn btn-lg py-3 px-5"
-                  style={{ backgroundColor: "#F54748", color: "4D4D4D" }}
+                  style={{ backgroundColor: "#F54748", color: "white" }}
                 >
                   Try Now
                 </a>
@@ -60,11 +60,11 @@ function HeroSection() {
               </div>
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-sm-12 col-md-6">
             <img
               src={person}
               alt=""
-              style={{ width: "100%" }}
+              style={{ width: "100%", height: "100%" }}
               className="pb-2"
             />
           </div>

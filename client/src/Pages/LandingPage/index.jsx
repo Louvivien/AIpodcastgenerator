@@ -3,7 +3,7 @@ import Header from "../../Components/Header";
 import LandingPage from "./landingPage";
 function index() {
   return (
-    <div className="d-flex flex-column">
+    <div>
       <Header />
       <main>
         <LandingPage />
