@@ -3,7 +3,7 @@ function MidSection() {
   return (
     <>
       <div id="midSection" className="d-flex justify-content-center">
-        <h1>MidSection!!!</h1>
+        asdf
       </div>
     </>
   );
