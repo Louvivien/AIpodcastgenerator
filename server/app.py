@@ -35,18 +35,18 @@ def send_content():
 
     content = request.get_json().get('content')
     
-    if 'youtu.be' or 'youtube.com' in content:
-        video_id = content[content.find('.be/')+4:] if 'youtu.be' in content else content[content.find('?v=')+3:]
-        srt = youtube_transcript_api.YouTubeTranscriptApi.get_transcript(video_id)
-        formatter = TextFormatter()
-        text_formatted = (formatter.format_transcript(srt)).replace("\n"," ").split()
-        text_formatted = text_formatted[:15000]
-        text_formatted = ' '.join(text_formatted)
-        prompt = f"Make a dialogue between two people (give them names) for a podcast based on the following content, make this fun and entertaining, less robotic and more natural, here is the content : {text_formatted}"
-        result = askGPT(prompt)
-        print(result)
-        # Return the result from the askGPT function
-        return jsonify({'status': 'success', 'result': result})
+    if 'youtu.be' in content or 'youtube.com' in content:
+      video_id = content[content.find('.be/')+4:] if 'youtu.be' in content else content[content.find('?v=')+3:]
+      srt = youtube_transcript_api.YouTubeTranscriptApi.get_transcript(video_id)
+      formatter = TextFormatter()
+      text_formatted = (formatter.format_transcript(srt)).replace("\n"," ").split()
+      text_formatted = text_formatted[:15000]
+      text_formatted = ' '.join(text_formatted)
+      prompt = f"Make a dialogue between two people (give them names) for a podcast based on the following content, make this fun and entertaining, less robotic and more natural, here is the content : {text_formatted}"
+      result = askGPT(prompt)
+      print(result)
+      # Return the result from the askGPT function
+      return jsonify({'status': 'success', 'result': result})
 
     else:
 
