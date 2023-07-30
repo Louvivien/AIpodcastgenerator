@@ -8,3 +8,34 @@
 @import "./SCSS/header";
 @import "./SCSS/heroSection";
 @import "./SCSS/midSection";
+.plane2 {
+  position: absolute;
+  right: 0;
+  width: 20%;
+  top: 116%;
+  z-index: 100;
+}
+.arrow {
+  position: absolute;
+  right: 6%;
+  width: 6%;
+  top: 113%;
+}
+.cartoon {
+  position: absolute;
+  left: 7%;
+  width: 25%;
+  top: 222%;
+  z-index: -1;
+}
+@media screen and (max-width: 768px) {
+  .plane2 {
+    display: none;
+  }
+  .arrow {
+    display: none;
+  }
+  .cartoon {
+    display: none;
+  }
+}

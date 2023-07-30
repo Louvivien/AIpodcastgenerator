@@ -1,5 +1,102 @@
 #podcastGenerator {
-  h1 {
-    color: green;
+  label {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 30px;
+    letter-spacing: 0.5%;
+  }
+  .row1 {
+    @media screen and (min-width: 0px) {
+      .img {
+        text-align: center;
+      }
+      h1 {
+        text-align: center;
+        font-family: "Roboto", sans-serif;
+        font-weight: 900;
+      }
+      h3 {
+        text-align: center;
+        font-family: "Roboto", sans-serif;
+        font-weight: 900;
+      }
+    }
+    @media screen and (min-width: 768px) {
+      img {
+        width: 110%;
+        position: relative;
+        left: 20%;
+      }
+      h1 {
+        font-family: "Roboto", sans-serif;
+        font-weight: 900;
+        font-size: 56px;
+        line-height: 101.95px;
+        text-align: center;
+        margin-top: -9%;
+      }
+      h3 {
+        font-family: "Roboto", sans-serif;
+        font-weight: 900;
+        font-size: 28px;
+        text-align: center;
+        margin-top: 25%;
+      }
+    }
+    @media screen and (min-width: 992px) {
+      img {
+        width: 110%;
+        position: relative;
+        left: 25%;
+      }
+      h1 {
+        font-family: "Roboto", sans-serif;
+        font-weight: 900;
+        font-size: 70px;
+        line-height: 101.95px;
+        text-align: center;
+        margin-top: -3%;
+      }
+      h3 {
+        font-family: "Roboto", sans-serif;
+        font-weight: 900;
+        font-size: 45px;
+        text-align: center;
+        margin-top: 23%;
+      }
+    }
+  }
+  .row3 {
+    .or {
+      font-family: "Poppins", sans-serif;
+      font-weight: 300;
+      font-size: 23px;
+      line-height: 16px;
+      text-align: center;
+    }
+  }
+  .row4 {
+    .rd {
+      border: 1px #000000 solid;
+      border-radius: 40px;
+    }
+    .or {
+      font-family: "Poppins", sans-serif;
+      font-weight: 300;
+      font-size: 23px;
+      line-height: 16px;
+      text-align: center;
+    }
+  }
+  .row6 {
+    p {
+      font-family: Poppins;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 30px;
+      letter-spacing: 0.005em;
+      text-align: left;
+    }
   }
 }

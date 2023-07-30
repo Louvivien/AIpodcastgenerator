@@ -5,7 +5,7 @@ import Login from "./Authentication/Login";
 import SignUp from "./Authentication/SignUp";
 import ForgotPassword from "./Authentication/ForgotPassword";
 import PodcastDownloader from "./podcastDownloader/podcastDownloader";
-import PodcastGenerator from "./PodcastGenerator/podcastGenerator";
+import PodcastGenerator from "./PodcastGenerator/index";
 import NoPage from "./NoPage";
 
 function CustomRoutes() {
