@@ -6,7 +6,7 @@ WORKDIR /app
 COPY client/package*.json ./
 RUN npm install
 COPY client/ ./
-RUN npm start
+RUN npm run build
 
 # Stage 2: Setup the Python environment
 FROM python:3.8-slim-buster
@@ -19,6 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the Flask server
 COPY server/ ./
 
+# Copy the React build from Stage 1
+COPY --from=build /app/build/ ./client/build/
 
 # Set environment variables
 ENV FLASK_APP=app.py

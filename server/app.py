@@ -1,4 +1,4 @@
-from flask import Flask, render_template , jsonify, request, send_file
+from flask import Flask, send_from_directory, request, jsonify, session
 import io
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -33,10 +33,23 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler())
 
-## Routes for frontend
-@app.route('/')
-def welcome():
-    return render_template('home.html')
+# ## Routes for frontend
+# @app.route('/')
+# def welcome():
+#     return render_template('home.html')
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        print(f"Serving index.html from {app.static_folder}")
+        return send_from_directory(app.static_folder, 'index.html')
+    
+
+
 
 
 @app.route('/send_content', methods=['POST'])
