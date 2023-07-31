@@ -43,7 +43,8 @@ function PodcastGenerator() {
     console.log(speakerData);
   };
   const podcastGenerateHandler = () => {
-    const url = process.env.REACT_APP_BASE_URL+"send_content";
+    // const url = process.env.REACT_APP_BASE_URL+"send_content";
+    const url = process.env.REACT_APP_SEND_CONTENT_URL;
     const data = {
       speaker1: speakerData.speaker1,
       speaker2: speakerData.speaker1,

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 function PodcastDownloader() {
   const handleDownload = () => {
-    const audioUrl = "https://www.soychile.org/download_audio";
+    const audioUrl = process.env.REACT_APP_DOWNLOAD_AUDIO_URL;
 
     axios({
       url: audioUrl,
