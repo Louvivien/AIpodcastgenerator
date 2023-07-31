@@ -2,8 +2,7 @@ import React from "react";
 import axios from "axios";
 function PodcastDownloader() {
   const handleDownload = () => {
-    const audioUrl = process.env.REACT_APP_DOWNLOAD_AUDIO_URL;
-
+    const audioUrl = process.env.REACT_APP_BASE_URL + "download_audio";
     axios({
       url: audioUrl,
       method: "GET",
