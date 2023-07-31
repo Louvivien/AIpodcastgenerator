@@ -53,6 +53,7 @@ def filter_voice(gender, age, accent):
     age: [young, old, middle aged]
     accent: [american, british, australian, indian, african]
     '''
+    logging.info("Filtering voice...")
     filtered_voices = []
     json_data = get_all_voices()
 
@@ -81,18 +82,20 @@ def generate_audio(script, speaker1, speaker2,
                    speaker1_gender, speaker2_gender,
                    speaker1_accent, speaker2_accent):
     try:
+        logging.info("Generating audio...")
         transcript = script
         sp1_voice = filter_voice(speaker1_gender, speaker1_age, speaker1_accent)['name']
         sp2_voice = filter_voice(speaker2_gender, speaker2_age, speaker2_accent)['name']
 
         # Split the transcript into parts for speaker1 and speaker2
         parts = re.split(fr'({speaker1}:|{speaker2}:)', transcript)
+        logging.info(f"Splitting transcript...{parts}")
 
         audio_parts = []
         for i in range(1, len(parts), 2):
             speaker = parts[i].strip()
             text = parts[i+1].strip()
-
+            
             # Generate audio for this part
             if speaker == f'{speaker1}:':
                 audio = generate(text=text, voice=sp1_voice, model="eleven_monolingual_v1")
