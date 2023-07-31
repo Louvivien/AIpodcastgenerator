@@ -105,7 +105,8 @@ def generate_audio(script, speaker1, speaker2,
         final_audio = concatenate_audio(audio_parts)  
         with open("podcast.mp3", "wb") as f:
             f.write(final_audio)
-    except:
+    except Exception as e:
+        print(e)
         return False
 
     return True
