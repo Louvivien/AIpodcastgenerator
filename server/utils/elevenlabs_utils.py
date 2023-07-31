@@ -13,7 +13,8 @@ elevenlabs_key = os.getenv('ELEVEN_API_KEY')
 elevenlabs_url = os.getenv('ELEVENLABS_URL')
 
 
-
+# list of custom voices cloned into elevenlabs
+CUSTOM_VOICE = ['jessi']
 
 
 
@@ -92,11 +93,12 @@ def generate_audio(script, speaker1, speaker2,
     try:
         logging.info("Generating audio...")
         transcript = script
-        sp1_voice = filter_voice(speaker1_gender, speaker1_age, speaker1_accent)['name']
-        sp2_voice = filter_voice(speaker2_gender, speaker2_age, speaker2_accent)['name']
+
+        sp1_voice = speaker1.lower() if speaker1.lower() in CUSTOM_VOICE else filter_voice(speaker1_gender, speaker1_age, speaker1_accent)['name']
+        sp2_voice = speaker2.lower() if speaker2.lower() in CUSTOM_VOICE else filter_voice(speaker2_gender, speaker2_age, speaker2_accent)['name']
 
         # Split the transcript into parts for speaker1 and speaker2
-        parts = re.split(fr'({speaker1}:|{speaker2}:)', transcript)
+        parts = re.split(fr'({speaker1.title()}:|{speaker2.title()}:)', transcript)
         logging.info(f"Splitting transcript...{parts}")
 
         audio_parts = []
@@ -105,9 +107,9 @@ def generate_audio(script, speaker1, speaker2,
             text = parts[i+1].strip()
             
             # Generate audio for this part
-            if speaker == f'{speaker1}:':
+            if speaker == f'{speaker1.title()}:':
                 audio = generate(text=text, voice=sp1_voice, model="eleven_monolingual_v1")
-            elif speaker == f'{speaker2}:':
+            elif speaker == f'{speaker2.title()}:':
                 audio = generate(text=text, voice=sp2_voice, model="eleven_monolingual_v1")
             print("Generated audio for: ", speaker)
             audio_parts.append(audio)
