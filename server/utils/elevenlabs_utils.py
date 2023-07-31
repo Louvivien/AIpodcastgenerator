@@ -12,6 +12,11 @@ load_dotenv()
 elevenlabs_key = os.getenv('ELEVEN_API_KEY')
 elevenlabs_url = os.getenv('ELEVENLABS_URL')
 
+logging.info(f"URL {elevenlabs_url}")
+logging.info(f"URL {elevenlabs_url}voices")
+logging.info(f'URL {elevenlabs_url}' + 'voices')
+
+
 
 
 
@@ -32,7 +37,7 @@ def extract_dialogues(script, speaker1, speaker2):
 
 def get_all_voices():
     logging.info("Getting voices...")
-    url = f'{elevenlabs_url}voices'
+    url = f'{elevenlabs_url}' + 'voices'
     headers = {
         'accept': 'application/json',
         'xi-api-key': elevenlabs_key
