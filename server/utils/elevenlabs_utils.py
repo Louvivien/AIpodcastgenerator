@@ -5,7 +5,7 @@ import requests
 from dotenv import load_dotenv
 import random
 from pydub import AudioSegment
-
+import logging
 
 # Load environment variables
 load_dotenv()
@@ -106,7 +106,7 @@ def generate_audio(script, speaker1, speaker2,
         with open("podcast.mp3", "wb") as f:
             f.write(final_audio)
     except Exception as e:
-        print(e)
+        logging.exception(e)
         return False
 
     return True
