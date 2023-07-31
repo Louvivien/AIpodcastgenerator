@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import mic from "../../Assets/mic.png";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const spkData = {
   script: "",
   link: "",
@@ -515,13 +516,13 @@ function PodcastGenerator() {
                 </div>
                 <div className="row my-4 pb-5">
                   <div className="col" style={{ textAlign: "center" }}>
-                    <a
+                    <Link
                       className="btn btn-lg py-3 px-5"
                       style={{ backgroundColor: "#F54748", color: "white" }}
                       onClick={podcastGenerateHandler}
                     >
                       Generate
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

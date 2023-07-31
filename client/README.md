@@ -1,1 +1,1 @@
-# EventGenie
+# AIpodcastgenerator
