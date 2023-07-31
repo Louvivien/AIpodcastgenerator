@@ -1,7 +1,8 @@
 import React from "react";
 import plane from "../Assets/plane.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Header() {
+  const Navigate = useNavigate();
   return (
     <>
       <div id="header">
@@ -29,7 +30,7 @@ function Header() {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div class="navbar-nav ms-auto">
-                <Link
+                <a
                   class="nav-link active"
                   aria-current="page"
                   href="#"
@@ -43,10 +44,10 @@ function Header() {
                     lineHeight: "24px",
                     textAlign: "center",
                   }}
-                  to="signUp"
+                  onClick={() => Navigate("/signUp")}
                 >
                   Signup
-                </Link>
+                </a>
                 <a
                   class="nav-link"
                   href="#"
