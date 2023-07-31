@@ -47,7 +47,7 @@ function PodcastGenerator() {
     // const url = process.env.REACT_APP_BASE_URL + 'send_content';
     const data = {
       speaker1: speakerData.speaker1,
-      speaker2: speakerData.speaker1,
+      speaker2: speakerData.speaker2,
       speaker1_age: speakerData.speaker1_age,
       speaker2_age: speakerData.speaker2_age,
       speaker1_gender: speakerData.speaker1_gender,
@@ -246,7 +246,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="gender1" class="form-label">
-                            Gender (Optional)
+                            Gender 
                           </label>
                           <select
                             class="form-select"
@@ -273,7 +273,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="gender2" class="form-label">
-                            Gender (Optional)
+                            Gender 
                           </label>
                           <select
                             class="form-select"
@@ -300,7 +300,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="gender3" class="form-label">
-                            Gender (Optional)
+                            Gender 
                           </label>
                           <select
                             class="form-select"
@@ -329,7 +329,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="age1" class="form-label">
-                            Age (Optional)
+                            Age 
                           </label>
                           <select
                             class="form-select"
@@ -357,7 +357,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="age2" class="form-label">
-                            Age (Optional)
+                            Age 
                           </label>
                           <select
                             class="form-select"
@@ -385,7 +385,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="age3" class="form-label">
-                            Age (Optional)
+                            Age 
                           </label>
                           <select
                             class="form-select"
@@ -415,7 +415,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="accent1" class="form-label">
-                            Accent (Optional)
+                            Accent 
                           </label>
                           <select
                             class="form-select"
@@ -445,7 +445,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="accent2" class="form-label">
-                            Accent (Optional)
+                            Accent 
                           </label>
                           <select
                             class="form-select"
@@ -475,7 +475,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="accent3" class="form-label">
-                            Accent (Optional)
+                            Accent 
                           </label>
                           <select
                             class="form-select"
