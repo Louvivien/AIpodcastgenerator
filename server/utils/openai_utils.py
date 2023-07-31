@@ -1,6 +1,9 @@
 import openai
+import logging
+
 
 def askGPT(prompt):
+    logging.info("Generating transcript...")
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[

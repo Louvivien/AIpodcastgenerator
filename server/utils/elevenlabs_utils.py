@@ -17,6 +17,7 @@ elevenlabs_url = os.getenv('ELEVENLABS_URL')
 
 
 def extract_dialogues(script, speaker1, speaker2):
+    logging.info("Extracting dialogues...")
     # not using this function anymore, but keeping it here in case recurrent requests to 
     # elevenlabs api fails.
     speaker1_dialogue_pattern =  fr"{speaker1}: ([^\n]*?)\n"
@@ -30,6 +31,7 @@ def extract_dialogues(script, speaker1, speaker2):
 
 
 def get_all_voices():
+    logging.info("Getting voices...")
     url = f'{elevenlabs_url}voices'
     headers = {
         'accept': 'application/json',
@@ -70,6 +72,7 @@ def filter_voice(gender, age, accent):
 
 
 def concatenate_audio(audio_parts):
+    logging.info("Concatenating voices...")
     # Concatenate all the audio parts into a single audio segment
     final_audio = AudioSegment.empty()
     final_audio = b"".join(audio_parts)
