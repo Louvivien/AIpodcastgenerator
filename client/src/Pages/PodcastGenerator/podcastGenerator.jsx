@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import mic from "../../Assets/mic.png";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+
 const spkData = {
   script: "",
   link: "",
@@ -21,6 +23,9 @@ const spkData = {
   speaker3_accent: "",
 };
 function PodcastGenerator() {
+
+  const navigate = useNavigate();
+
   // const [script, setScript] = useState("");
   // const [link, setLink] = useState("");
   // const [topic, setTopic] = useState("");
@@ -42,7 +47,10 @@ function PodcastGenerator() {
     setSpeakerData((s) => ({ ...s, [e.target.name]: e.target.value }));
     console.log(speakerData);
   };
+
+
   const podcastGenerateHandler = () => {
+
     const url = "send_content";
     // const url = process.env.REACT_APP_BASE_URL + 'send_content';
     const data = {
@@ -61,6 +69,8 @@ function PodcastGenerator() {
       .then((response) => {
         // Handle the API response data here (if needed)
         console.log("Data sent successfully:", response.data);
+        navigate('/podcastDownloader'); 
+
       })
       .catch((error) => {
         // Handle any errors that occurred during the API call
