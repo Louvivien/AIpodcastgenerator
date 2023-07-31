@@ -1,4 +1,18 @@
 #podcastGenerator {
+  [data-testid="three-dots-loading"] {
+    position: absolute;
+    bottom: -12px;
+    left: 43px;
+  }
+  .generateButton {
+    height: 60px;
+    width: 160px;
+    span {
+      position: relative;
+      left: -10px;
+      bottom: 3px;
+    }
+  }
   label {
     font-family: "Poppins", sans-serif;
     font-weight: 400;

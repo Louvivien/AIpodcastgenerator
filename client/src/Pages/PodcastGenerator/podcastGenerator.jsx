@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import mic from "../../Assets/mic.png";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
+import { ThreeDots } from "react-loader-spinner";
 
 const spkData = {
   script: "",
@@ -23,9 +23,8 @@ const spkData = {
   speaker3_accent: "",
 };
 function PodcastGenerator() {
-
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false);
   // const [script, setScript] = useState("");
   // const [link, setLink] = useState("");
   // const [topic, setTopic] = useState("");
@@ -48,9 +47,7 @@ function PodcastGenerator() {
     console.log(speakerData);
   };
 
-
   const podcastGenerateHandler = () => {
-
     const url = "send_content";
     // const url = process.env.REACT_APP_BASE_URL + 'send_content';
     const data = {
@@ -64,17 +61,19 @@ function PodcastGenerator() {
       speaker2_accent: speakerData.speaker2_accent,
       content: speakerData.link,
     };
+    setIsLoading(true);
     axios
       .post(url, data)
       .then((response) => {
         // Handle the API response data here (if needed)
         console.log("Data sent successfully:", response.data);
-        navigate('/podcastDownloader'); 
-
+        setIsLoading(false);
+        navigate("/podcastDownloader");
       })
       .catch((error) => {
         // Handle any errors that occurred during the API call
         console.error("Error sending data:", error);
+        setIsLoading(false);
       });
   };
   return (
@@ -256,7 +255,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="gender1" class="form-label">
-                            Gender 
+                            Gender
                           </label>
                           <select
                             class="form-select"
@@ -283,7 +282,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="gender2" class="form-label">
-                            Gender 
+                            Gender
                           </label>
                           <select
                             class="form-select"
@@ -310,7 +309,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="gender3" class="form-label">
-                            Gender 
+                            Gender
                           </label>
                           <select
                             class="form-select"
@@ -339,7 +338,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="age1" class="form-label">
-                            Age 
+                            Age
                           </label>
                           <select
                             class="form-select"
@@ -367,7 +366,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="age2" class="form-label">
-                            Age 
+                            Age
                           </label>
                           <select
                             class="form-select"
@@ -395,7 +394,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="age3" class="form-label">
-                            Age 
+                            Age
                           </label>
                           <select
                             class="form-select"
@@ -425,7 +424,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="accent1" class="form-label">
-                            Accent 
+                            Accent
                           </label>
                           <select
                             class="form-select"
@@ -455,7 +454,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="accent2" class="form-label">
-                            Accent 
+                            Accent
                           </label>
                           <select
                             class="form-select"
@@ -485,7 +484,7 @@ function PodcastGenerator() {
                       <div className="col-8">
                         <div class="mb-3">
                           <label for="accent3" class="form-label">
-                            Accent 
+                            Accent
                           </label>
                           <select
                             class="form-select"
@@ -528,11 +527,34 @@ function PodcastGenerator() {
                 <div className="row my-4 pb-5">
                   <div className="col" style={{ textAlign: "center" }}>
                     <Link
-                      className="btn btn-lg py-3 px-5"
-                      style={{ backgroundColor: "#F54748", color: "white" }}
-                      onClick={podcastGenerateHandler}
+                      className="btn btn-lg py-3 px-5 generateButton"
+                      style={{
+                        backgroundColor: "#F54748",
+                        color: "white",
+                        position: "relative",
+                      }}
+                      onClick={isLoading ? null : podcastGenerateHandler} // Disable the onClick event while loading
                     >
-                      Generate
+                      {isLoading ? (
+                        <ThreeDots
+                          height="80"
+                          width="80"
+                          radius="9"
+                          color="white"
+                          ariaLabel="three-dots-loading"
+                          wrapperStyle={{}}
+                          wrapperClassName=""
+                          visible={true}
+                          className="loader"
+                          style={{
+                            position: "absolute",
+                            bottom: "-12px",
+                            left: "43px",
+                          }}
+                        />
+                      ) : (
+                        <span>Generate</span>
+                      )}
                     </Link>
                   </div>
                 </div>
