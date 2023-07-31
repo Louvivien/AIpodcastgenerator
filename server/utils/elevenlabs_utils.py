@@ -9,8 +9,11 @@ from pydub import AudioSegment
 
 # Load environment variables
 load_dotenv()
-elevenlabs_key = os.getenv('ELEVENLABS_API_KEY')
+elevenlabs_key = os.getenv('ELEVEN_API_KEY')
 elevenlabs_url = os.getenv('ELEVENLABS_URL')
+
+
+
 
 
 def extract_dialogues(script, speaker1, speaker2):
