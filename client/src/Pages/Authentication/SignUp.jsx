@@ -30,7 +30,7 @@ function SignUp() {
       <div className="container ">
         <div className="row">
           <div className="col">
-            <Link className="btn btn-home" to="/">
+            <Link className="btn btn-home" to="/" style={{ color: "#F54748" }}>
               <BiArrowBack />
             </Link>
           </div>
@@ -39,7 +39,7 @@ function SignUp() {
           <div className="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
             <div className="card SignUpCard w-100">
               <div className="div card-body">
-                <h3>Sign Up</h3>
+                <h3 style={{ color: "#F54748" }}>Sign Up</h3>
                 <form onSubmit={handleSubmit}>
                   <label for="exampleInputEmail1" className="form-label">
                     Email
@@ -55,6 +55,7 @@ function SignUp() {
                       name="email"
                       required
                       onChange={handleChange}
+                      style={{ backgroundColor: "#FDECEC" }}
                     />
                   </div>
                   <label for="password" className="form-label">
@@ -71,6 +72,7 @@ function SignUp() {
                       aria-describedby="addon-wrapping"
                       required
                       onChange={handleChange}
+                      style={{ backgroundColor: "#FDECEC" }}
                     />
                     <button
                       type="button"
@@ -100,6 +102,7 @@ function SignUp() {
                       aria-describedby="addon-wrapping"
                       required
                       onChange={handleChange}
+                      style={{ backgroundColor: "#FDECEC" }}
                     />
                     <button
                       type="button"
@@ -140,7 +143,9 @@ function SignUp() {
                 <div className="text-center">
                   Already a user?{" "}
                   <span>
-                    <Link to="/login">Login</Link>
+                    <Link to="/login" style={{ color: "#F54748" }}>
+                      Login
+                    </Link>
                   </span>
                 </div>
               </div>

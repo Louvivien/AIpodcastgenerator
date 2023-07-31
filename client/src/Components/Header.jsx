@@ -1,5 +1,6 @@
 import React from "react";
 import plane from "../Assets/plane.png";
+import { Link } from "react-router-dom";
 function Header() {
   return (
     <>
@@ -8,9 +9,11 @@ function Header() {
           <div class="container-sm-fluid container-md">
             <a class="navbar-brand">
               <div>
-                <img src={plane} className="plane" />
-                <b>Collab</b>
-                <b style={{ color: "#F54748" }}>Talk.ai</b>
+                <Link to="/" style={{ textDecoration: "none" }}>
+                  <img src={plane} className="plane" />
+                  <b style={{ color: "black" }}>Collab</b>
+                  <b style={{ color: "#F54748" }}>Talk.ai</b>
+                </Link>
               </div>
             </a>
             <button
@@ -26,7 +29,7 @@ function Header() {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div class="navbar-nav ms-auto">
-                <a
+                <Link
                   class="nav-link active"
                   aria-current="page"
                   href="#"
@@ -40,9 +43,10 @@ function Header() {
                     lineHeight: "24px",
                     textAlign: "center",
                   }}
+                  to="signUp"
                 >
                   Signup
-                </a>
+                </Link>
                 <a
                   class="nav-link"
                   href="#"

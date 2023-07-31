@@ -33,7 +33,7 @@ function HeroSection() {
                   </span>
                 </div>
                 <div className="mt-3">
-                  <b>Dialauge </b> <br />
+                  <b>Dialogue </b> <br />
                   <b>Podcasts </b> <br />
                   <div>
                     <b>Generated </b>{" "}

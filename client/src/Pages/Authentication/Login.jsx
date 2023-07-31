@@ -26,7 +26,7 @@ function Login() {
       <div className="container ">
         <div className="row">
           <div className="col">
-            <Link className="btn btn-home" to="/">
+            <Link className="btn btn-home" to="/" style={{ color: "#F54748" }}>
               <BiArrowBack />
             </Link>
           </div>
@@ -35,7 +35,7 @@ function Login() {
           <div className="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
             <div className="card  w-100">
               <div className="div card-body">
-                <h3>LOGIN</h3>
+                <h3 style={{ color: "#F54748" }}>LOGIN</h3>
                 <form onSubmit={handleSubmit}>
                   <label for="exampleInputEmail1" className="form-label">
                     Email
@@ -51,6 +51,7 @@ function Login() {
                       name="email"
                       required
                       onChange={handleChange}
+                      style={{ backgroundColor: "#FDECEC" }}
                     />
                   </div>
                   <label for="password" className="form-label">
@@ -67,6 +68,7 @@ function Login() {
                       aria-describedby="addon-wrapping"
                       required
                       onChange={handleChange}
+                      style={{ backgroundColor: "#FDECEC" }}
                     />
                     <button
                       type="button"
@@ -106,11 +108,8 @@ function Login() {
                       )}
                     </button>
                   </div>
-                  <div className="text-end">
-                    <Link to="/forgotPassword">forgot Passsword?</Link>
-                  </div>
                 </form>
-                <div style={{ position: "relative" }}>
+                <div style={{ position: "relative" }} className="pt-2">
                   <span className="OR text-center">
                     <i className="fa-solid fa-o"></i>
                     <i className="fa-solid fa-r"></i>
@@ -120,7 +119,9 @@ function Login() {
                 <div className="text-center">
                   Need an account?{" "}
                   <span>
-                    <Link to="/signUp">SIGNUP</Link>
+                    <Link to="/signUp" style={{ color: "#F54748" }}>
+                      SIGNUP
+                    </Link>
                   </span>
                 </div>
               </div>

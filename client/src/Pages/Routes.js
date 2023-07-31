@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./LandingPage/index";
 import Login from "./Authentication/Login";
 import SignUp from "./Authentication/SignUp";
-import ForgotPassword from "./Authentication/ForgotPassword";
 import PodcastDownloader from "./podcastDownloader/index";
 import PodcastGenerator from "./PodcastGenerator/index";
 import NoPage from "./NoPage";
@@ -17,7 +16,6 @@ function CustomRoutes() {
         <Route path="/podcastDownloader" element={<PodcastDownloader />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<SignUp />} />
-        <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
