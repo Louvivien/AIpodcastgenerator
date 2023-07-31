@@ -1,6 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import mic from "../../Assets/mic.png";
+import axios from "axios";
+const spkData = {
+  script: "",
+  link: "",
+  topic: "",
+  minutes: "",
+  speaker1: "",
+  speaker2: "",
+  speaker3: "",
+  speaker1_age: "",
+  speaker2_age: "",
+  speaker3_age: "",
+  speaker1_gender: "",
+  speaker2_gender: "",
+  speaker3_gender: "",
+  speaker1_accent: "",
+  speaker2_accent: "",
+  speaker3_accent: "",
+};
 function PodcastGenerator() {
+  // const [script, setScript] = useState("");
+  // const [link, setLink] = useState("");
+  // const [topic, setTopic] = useState("");
+  // const [minutes, setMinutes] = useState("");
+  // const [speaker1, setSpeaker1] = useState("");
+  // const [speaker2, setSpeaker2] = useState("");
+  // const [speaker3, setSpeaker3] = useState("");
+  // const [speaker1_age, setSpeaker1_age] = useState("");
+  // const [speaker2_age, setSpeaker2_age] = useState("");
+  // const [speaker3_age, setSpeaker3_age] = useState("");
+  // const [speaker1_gender, setSpeaker1_gender] = useState("");
+  // const [speaker2_gender, setSpeaker2_gender] = useState("");
+  // const [speaker3_gender, setSpeaker3_gender] = useState("");
+  // const [speaker1_accent, setSpeaker1_accent] = useState("");
+  // const [speaker2_accent, setSpeaker2_accent] = useState("");
+  // const [speaker3_accent, setSpeaker3_accent] = useState("");
+  const [speakerData, setSpeakerData] = useState(spkData);
+  const handleChange = (e) => {
+    setSpeakerData((s) => ({ ...s, [e.target.name]: e.target.value }));
+    console.log(speakerData);
+  };
+  const podcastGenerateHandler = () => {
+    const url = "https://www.soychile.org/send_content";
+    const data = {
+      speaker1: speakerData.speaker1,
+      speaker2: speakerData.speaker1,
+      speaker1_age: speakerData.speaker1_age,
+      speaker2_age: speakerData.speaker2_age,
+      speaker1_gender: speakerData.speaker1_gender,
+      speaker2_gender: speakerData.speaker2_gender,
+      speaker1_accent: speakerData.speaker1_accent,
+      speaker2_accent: speakerData.speaker2_accent,
+      content: speakerData.link,
+    };
+    axios
+      .post(url, data)
+      .then((response) => {
+        // Handle the API response data here (if needed)
+        console.log("Data sent successfully:", response.data);
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the API call
+        console.error("Error sending data:", error);
+      });
+  };
   return (
     <>
       <div id="podcastGenerator" className="container">
@@ -34,7 +98,8 @@ function PodcastGenerator() {
                     style={{ backgroundColor: "#FDECEC" }}
                     rows="8"
                     cols="40"
-                    // value="Your Script"
+                    name="script"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -57,6 +122,8 @@ function PodcastGenerator() {
                         aria-label="yourlink"
                         aria-describedby="addon-wrapping"
                         style={{ backgroundColor: "#FDECEC" }}
+                        name="link"
+                        onChange={handleChange}
                       />
                     </div>
                     <div className="col or">OR</div>
@@ -68,6 +135,8 @@ function PodcastGenerator() {
                         aria-label="yourtopic"
                         aria-describedby="addon-wrapping"
                         style={{ backgroundColor: "#FDECEC" }}
+                        name="topic"
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -88,6 +157,8 @@ function PodcastGenerator() {
                         id="minutes"
                         placeholder="minutes"
                         style={{ backgroundColor: "#FDECEC" }}
+                        name="minutes"
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -113,6 +184,8 @@ function PodcastGenerator() {
                             id="speaker1"
                             placeholder="Name"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker1"
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -133,6 +206,8 @@ function PodcastGenerator() {
                             id="speaker2"
                             placeholder="Name"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker2"
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -153,6 +228,8 @@ function PodcastGenerator() {
                             id="speaker3"
                             placeholder="Name"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker3"
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -174,11 +251,14 @@ function PodcastGenerator() {
                             aria-label="Default select example"
                             id="gender1"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker1_gender"
+                            onChange={handleChange}
                           >
-                            <option value="1" selected>
-                              male
+                            <option value="" selected>
+                              gender
                             </option>
-                            <option value="2">female</option>
+                            <option value="male">male</option>
+                            <option value="female">female</option>
                           </select>
                         </div>
                       </div>
@@ -198,11 +278,14 @@ function PodcastGenerator() {
                             aria-label="Default select example"
                             id="gender2"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker2_gender"
+                            onChange={handleChange}
                           >
-                            <option value="1" selected>
-                              male
+                            <option value="" selected>
+                              gender
                             </option>
-                            <option value="2">female</option>
+                            <option value="male">male</option>
+                            <option value="female">female</option>
                           </select>
                         </div>
                       </div>
@@ -222,11 +305,14 @@ function PodcastGenerator() {
                             aria-label="Default select example"
                             id="gender3"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker3_gender"
+                            onChange={handleChange}
                           >
-                            <option value="1" selected>
-                              male
+                            <option value="" selected>
+                              gender
                             </option>
-                            <option value="2">female</option>
+                            <option value="male">male</option>
+                            <option value="female">female</option>
                           </select>
                         </div>
                       </div>
@@ -248,12 +334,15 @@ function PodcastGenerator() {
                             aria-label="Default select example"
                             id="age1"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker1_age"
+                            onChange={handleChange}
                           >
-                            <option value="1" selected>
-                              young
+                            <option value="" selected>
+                              age
                             </option>
-                            <option value="2">old</option>
-                            <option value="3">middle aged</option>
+                            <option value="young">young</option>
+                            <option value="old">old</option>
+                            <option value="middle aged">middle aged</option>
                           </select>
                         </div>
                       </div>
@@ -273,12 +362,15 @@ function PodcastGenerator() {
                             aria-label="Default select example"
                             id="age2"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker2_age"
+                            onChange={handleChange}
                           >
-                            <option value="1" selected>
-                              young
+                            <option value="" selected>
+                              age
                             </option>
-                            <option value="2">old</option>
-                            <option value="3">middle aged</option>
+                            <option value="young">young</option>
+                            <option value="old">old</option>
+                            <option value="middle aged">middle aged</option>
                           </select>
                         </div>
                       </div>
@@ -298,12 +390,15 @@ function PodcastGenerator() {
                             aria-label="Default select example"
                             id="age3"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker3_age"
+                            onChange={handleChange}
                           >
-                            <option value="1" selected>
-                              young
+                            <option value="" selected>
+                              age
                             </option>
-                            <option value="2">old</option>
-                            <option value="3">middle aged</option>
+                            <option value="young">young</option>
+                            <option value="old">old</option>
+                            <option value="middle aged">middle aged</option>
                           </select>
                         </div>
                       </div>
@@ -325,14 +420,17 @@ function PodcastGenerator() {
                             aria-label="Default select example"
                             id="accent1"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker1_accent"
+                            onChange={handleChange}
                           >
-                            <option value="1" selected>
-                              american
+                            <option value="" selected>
+                              Accent
                             </option>
-                            <option value="2">british</option>
-                            <option value="3">australian</option>
-                            <option value="4">indian</option>
-                            <option value="5">african</option>
+                            <option value="american">american</option>
+                            <option value="british">british</option>
+                            <option value="australian">australian</option>
+                            <option value="indian">indian</option>
+                            <option value="african">african</option>
                           </select>
                         </div>
                       </div>
@@ -352,14 +450,17 @@ function PodcastGenerator() {
                             aria-label="Default select example"
                             id="accent2"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker2_accent"
+                            onChange={handleChange}
                           >
-                            <option value="1" selected>
-                              american
+                            <option value="" selected>
+                              Accent
                             </option>
-                            <option value="2">british</option>
-                            <option value="3">australian</option>
-                            <option value="4">indian</option>
-                            <option value="5">african</option>
+                            <option value="american">american</option>
+                            <option value="british">british</option>
+                            <option value="australian">australian</option>
+                            <option value="indian">indian</option>
+                            <option value="african">african</option>
                           </select>
                         </div>
                       </div>
@@ -379,14 +480,17 @@ function PodcastGenerator() {
                             aria-label="Default select example"
                             id="accent3"
                             style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker3_accent"
+                            onChange={handleChange}
                           >
-                            <option value="1" selected>
-                              american
+                            <option value="" selected>
+                              Accent
                             </option>
-                            <option value="2">british</option>
-                            <option value="3">australian</option>
-                            <option value="4">indian</option>
-                            <option value="5">african</option>
+                            <option value="american">american</option>
+                            <option value="british">british</option>
+                            <option value="australian">australian</option>
+                            <option value="indian">indian</option>
+                            <option value="african">african</option>
                           </select>
                         </div>
                       </div>
@@ -414,6 +518,7 @@ function PodcastGenerator() {
                     <a
                       className="btn btn-lg py-3 px-5"
                       style={{ backgroundColor: "#F54748", color: "white" }}
+                      onClick={podcastGenerateHandler}
                     >
                       Generate
                     </a>

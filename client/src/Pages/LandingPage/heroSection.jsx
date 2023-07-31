@@ -1,6 +1,8 @@
 import React from "react";
 import person from "../../Assets/person.png";
 import orderProcess from "../../Assets/OrderProcess.png";
+import { Link } from "react-router-dom";
+import PodcastDownloader from "../podcastDownloader/podcastDownloader";
 function HeroSection() {
   return (
     <>
@@ -45,12 +47,13 @@ function HeroSection() {
                   Generate Conventional podcasts using your favourite medium
                   articles or simply by giving a topic.
                 </p>
-                <a
+                <Link
                   className="btn btn-lg py-3 px-5"
                   style={{ backgroundColor: "#F54748", color: "white" }}
+                  to="podcastGenerator"
                 >
                   Try Now
-                </a>
+                </Link>
                 <a className="pt-2">
                   <img
                     src={orderProcess}
