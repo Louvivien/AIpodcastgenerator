@@ -42,7 +42,7 @@ function PodcastGenerator() {
     console.log(speakerData);
   };
   const podcastGenerateHandler = () => {
-    const url = "https://www.soychile.org/send_content";
+    const url = process.env.REACT_APP_BASE_URL+"send_content";
     const data = {
       speaker1: speakerData.speaker1,
       speaker2: speakerData.speaker1,
