@@ -44,7 +44,7 @@ function HeroSection() {
                   </div>
                 </div>
                 <p>
-                  Generate Conventional podcasts using your favourite medium
+                  Generate Conversational podcasts using your favourite medium
                   articles or simply by giving a topic.
                 </p>
                 <Link
