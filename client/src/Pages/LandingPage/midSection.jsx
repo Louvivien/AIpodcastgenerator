@@ -62,7 +62,7 @@ function MidSection() {
                 <div class="card-body">
                   <div class="card-body">
                     <h1>Download</h1>
-                    <p>Generate your poscast and download it</p>
+                    <p>Generate your podcast and download it</p>
                   </div>
                 </div>
               </div>
