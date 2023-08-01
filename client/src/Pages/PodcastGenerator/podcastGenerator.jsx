@@ -25,22 +25,6 @@ const spkData = {
 function PodcastGenerator() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  // const [script, setScript] = useState("");
-  // const [link, setLink] = useState("");
-  // const [topic, setTopic] = useState("");
-  // const [minutes, setMinutes] = useState("");
-  // const [speaker1, setSpeaker1] = useState("");
-  // const [speaker2, setSpeaker2] = useState("");
-  // const [speaker3, setSpeaker3] = useState("");
-  // const [speaker1_age, setSpeaker1_age] = useState("");
-  // const [speaker2_age, setSpeaker2_age] = useState("");
-  // const [speaker3_age, setSpeaker3_age] = useState("");
-  // const [speaker1_gender, setSpeaker1_gender] = useState("");
-  // const [speaker2_gender, setSpeaker2_gender] = useState("");
-  // const [speaker3_gender, setSpeaker3_gender] = useState("");
-  // const [speaker1_accent, setSpeaker1_accent] = useState("");
-  // const [speaker2_accent, setSpeaker2_accent] = useState("");
-  // const [speaker3_accent, setSpeaker3_accent] = useState("");
   const [speakerData, setSpeakerData] = useState(spkData);
   const handleChange = (e) => {
     setSpeakerData((s) => ({ ...s, [e.target.name]: e.target.value }));
@@ -518,8 +502,8 @@ function PodcastGenerator() {
                   <div className="col-3"></div>
                   <div className="col-6">
                     <p>
-                      Generate Conversational podcasts using your favorite
-                      news articles or simply by giving a topic.{" "}
+                      Generate Conversational podcasts using your favorite news
+                      articles or simply by giving a topic.{" "}
                     </p>
                   </div>
                   <div className="col-3"></div>
