@@ -26,7 +26,7 @@ function MidSection() {
                 <div class="card-body">
                   <h1>Upload URL</h1>
                   <p>
-                    Don't have your script? no worries. Give us a medium article
+                    Don't have your script? no worries. Give us a news article
                     URL or simply a topic name
                   </p>
                 </div>

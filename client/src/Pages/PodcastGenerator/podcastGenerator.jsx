@@ -519,7 +519,7 @@ function PodcastGenerator() {
                   <div className="col-6">
                     <p>
                       Generate Conversational podcasts using your favorite
-                      medium articles or simply by giving a topic.{" "}
+                      news articles or simply by giving a topic.{" "}
                     </p>
                   </div>
                   <div className="col-3"></div>
