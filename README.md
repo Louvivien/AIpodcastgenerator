@@ -147,12 +147,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 
 
-
-
-
-
-# AI podcast generator
-tool to generate a podcast with AI
-
-## Setup 
-
