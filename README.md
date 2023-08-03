@@ -14,7 +14,7 @@
     <a href="https://github.com/Louvivien/AIpodcastgenerator"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://lablab.ai/event/ai-agents-hackathon/let-them-live">View Project</a>
+    <a href="https://lablab.ai/event/eleven-labs-ai-hackathon/virtual-influencers/collabtalk-ai-dialogue-podcast-generator">View Project</a>
     ·
     <a href="https://github.com/Louvivien/AIpodcastgenerator/issues">Report Bug</a>
     ·
@@ -104,9 +104,7 @@ cd client
 
 ## Usage
 
-Make sure the account sending messaged as a bio with a little story
 
-This script logs into Instagram using the provided username and password, finds a user by their username, and sends them a direct message. It uses AutoGPT and LangChain to automate the conversation with the user.
 
 ## Troubleshooting
 
@@ -117,9 +115,7 @@ If the script is not working as expected, check the following:
 
 ## Ongoing work
 
-The integration of AutoGPT, LangChain, and Instagram is complete. It can engage in a conversation, follow user based on a topic and comment.
-We will add some other methods in instagram and add other social media : can identify the content of an image and comment from what it as identified in the picture
-For now the client is not connected to the server
+
 
 ## Contributing
 
