@@ -11,6 +11,8 @@
   <p align="justify">
     Introducing our revolutionary CollabTalk.ai – a cutting-edge tool designed to revolutionize the way you create and share podcasts! Imagine converting your favorite news articles, blog posts, or any written content into aptivating audio episodes effortlessly. With our state-of-the-art AI technology, podcast creation has never been his easy and engaging. Say goodbye to time-consuming scriptwriting and laborious voice recordings. CollabTalk.ai uses advanced natural language processing and Eleven labs speech synthesis to seamlessly transform text into lifelike, conversational audio. Simply input your desired content, select from a variety of AI-generated voices, and let the magic happen. It's like having a virtual co-host and/or narrator at your fingertips! Whether you're a seasoned.
     <br />
+    <a href="https://storage.googleapis.com/lablab-video-submissions/cljh21tkq000035715n61ieja%2Fraw%2Fsubmission-video-x-cljh21tkq000035715n61ieja-clkf6zdvo00113b6xec0dcr7h.mp4" target="_blank"><img src="https://i.imgur.com/8Fvza19.png" ></a>
+    <br />
     <a href="https://github.com/Louvivien/AIpodcastgenerator"><strong>Explore the docs »</strong></a>
     <br />
     <br />
