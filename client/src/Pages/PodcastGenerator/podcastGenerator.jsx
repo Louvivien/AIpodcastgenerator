@@ -11,16 +11,16 @@ const spkData = {
   minutes: "",
   speaker1: "",
   speaker2: "",
-  speaker3: "",
+  // speaker3: "",
   speaker1_age: "",
   speaker2_age: "",
-  speaker3_age: "",
+  // speaker3_age: "",
   speaker1_gender: "",
   speaker2_gender: "",
-  speaker3_gender: "",
+  // speaker3_gender: "",
   speaker1_accent: "",
   speaker2_accent: "",
-  speaker3_accent: "",
+  // speaker3_accent: "",
 };
 function PodcastGenerator() {
   const navigate = useNavigate();
@@ -165,7 +165,7 @@ function PodcastGenerator() {
             <div className="row my-5 py-4">
               <div className="col">
                 <div className="row">
-                  <div className="col-sm-12 col-md-4">
+                  <div className="col-sm-12 col-md-6">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -187,7 +187,7 @@ function PodcastGenerator() {
                       <div className="col-2"></div>
                     </div>
                   </div>
-                  <div className="col-sm-12 col-md-4">
+                  <div className="col-sm-12 col-md-6">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -209,7 +209,7 @@ function PodcastGenerator() {
                       <div className="col-2"></div>
                     </div>
                   </div>
-                  <div className="col-sm-12 col-md-4">
+                  {/* <div className="col-sm-12 col-md-4">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -230,10 +230,10 @@ function PodcastGenerator() {
                       </div>
                       <div className="col-2"></div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="row">
-                  <div className="col-sm-12 col-md-4">
+                  <div className="col-sm-12 col-md-6">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -260,7 +260,7 @@ function PodcastGenerator() {
                       <div className="col-2"></div>
                     </div>
                   </div>
-                  <div className="col-sm-12 col-md-4">
+                  <div className="col-sm-12 col-md-6">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -287,7 +287,7 @@ function PodcastGenerator() {
                       <div className="col-2"></div>
                     </div>
                   </div>
-                  <div className="col-sm-12 col-md-4">
+                  {/* <div className="col-sm-12 col-md-4">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -313,10 +313,10 @@ function PodcastGenerator() {
                       </div>
                       <div className="col-2"></div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="row">
-                  <div className="col-sm-12 col-md-4">
+                  <div className="col-sm-12 col-md-6">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -344,7 +344,7 @@ function PodcastGenerator() {
                       <div className="col-2"></div>
                     </div>
                   </div>
-                  <div className="col-sm-12 col-md-4">
+                  <div className="col-sm-12 col-md-6">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -372,7 +372,7 @@ function PodcastGenerator() {
                       <div className="col-2"></div>
                     </div>
                   </div>
-                  <div className="col-sm-12 col-md-4">
+                  {/* <div className="col-sm-12 col-md-4">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -399,10 +399,10 @@ function PodcastGenerator() {
                       </div>
                       <div className="col-2"></div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="row">
-                  <div className="col-sm-12 col-md-4">
+                  <div className="col-sm-12 col-md-6">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -432,7 +432,7 @@ function PodcastGenerator() {
                       <div className="col-2"></div>
                     </div>
                   </div>
-                  <div className="col-sm-12 col-md-4">
+                  <div className="col-sm-12 col-md-6">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -462,7 +462,7 @@ function PodcastGenerator() {
                       <div className="col-2"></div>
                     </div>
                   </div>
-                  <div className="col-sm-12 col-md-4">
+                  {/* <div className="col-sm-12 col-md-4">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
@@ -491,7 +491,7 @@ function PodcastGenerator() {
                       </div>
                       <div className="col-2"></div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
