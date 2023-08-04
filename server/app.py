@@ -70,9 +70,10 @@ def send_content():
       print(result)
 
       response = generate_audio(result, data['speaker1'], data['speaker2'],
-                     data['speaker1_age'], data['speaker2_age'],
-                     data['speaker1_gender'], data['speaker2_gender'],
-                     data['speaker1_accent'], data['speaker2_accent'])
+                     data.get('speaker1_age'), data.get('speaker2_age'),
+                     data.get('speaker1_gender'), data.get('speaker2_gender'),
+                     data.get('speaker1_accent'), data.get('speaker2_accent'),
+                     data.get('speaker1_voice_name'), data.get('speaker2_voice_name'))
 
       # Return the result from the askGPT function
       if response:
@@ -104,10 +105,12 @@ def send_content():
       result = askGPT(prompt)
 
       print(result)
+
       response = generate_audio(result, data['speaker1'], data['speaker2'],
-                     data['speaker1_age'], data['speaker2_age'],
-                     data['speaker1_gender'], data['speaker2_gender'],
-                     data['speaker1_accent'], data['speaker2_accent'])
+                     data.get('speaker1_age'), data.get('speaker2_age'),
+                     data.get('speaker1_gender'), data.get('speaker2_gender'),
+                     data.get('speaker1_accent'), data.get('speaker2_accent'),
+                     data.get('speaker1_voice_name'), data.get('speaker2_voice_name'))
 
       if response:
           return jsonify({'status': 'success', 'result': result})
