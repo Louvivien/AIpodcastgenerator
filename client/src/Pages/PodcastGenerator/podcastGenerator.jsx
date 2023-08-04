@@ -34,6 +34,45 @@ function PodcastGenerator() {
   const podcastGenerateHandler = () => {
     const url = "send_content";
     // const url = process.env.REACT_APP_BASE_URL + 'send_content';
+    function findMatchingCombination(data, availableCombinations) {
+      // Step 1: Create a lookup map for the available combinations
+      const combinationsMap = {};
+      for (const combination of availableCombinations) {
+        const key = `${combination.age}-${combination.gender}-${combination.accent}`;
+        combinationsMap[key] = true;
+      }
+
+      // Step 2: Extract the speaker data from the 'data' object
+      const speaker1Key = `${data.speaker1_age}-${data.speaker1_gender}-${data.speaker1_accent}`;
+      const speaker2Key = `${data.speaker2_age}-${data.speaker2_gender}-${data.speaker2_accent}`;
+
+      // Step 3: Check if the speaker data matches any available combination
+      const speaker1Matched = combinationsMap[speaker1Key] === true;
+      const speaker2Matched = combinationsMap[speaker2Key] === true;
+
+      return { speaker1Matched, speaker2Matched };
+    }
+
+    const availableCombinations = [
+      { accent: "", age: "middle aged", gender: "male" },
+      { accent: "american", age: "young", gender: "male" },
+      { accent: "", age: "", gender: "" },
+      { accent: "irish", age: "old", gender: "male" },
+      { accent: "american-southern", age: "young", gender: "female" },
+      { accent: "english-swedish", age: "young", gender: "female" },
+      { accent: "british", age: "middle aged", gender: "male" },
+      { accent: "american-irish", age: "young", gender: "male" },
+      { accent: "british", age: "young", gender: "female" },
+      { accent: "american", age: "old", gender: "male" },
+      { accent: "british-essex", age: "young", gender: "male" },
+      { accent: "english-italian", age: "young", gender: "male" },
+      { accent: "english-swedish", age: "middle aged", gender: "female" },
+      { accent: "australian", age: "middle aged", gender: "male" },
+      { accent: "american", age: "middle aged", gender: "male" },
+      { accent: "australian", age: "old", gender: "male" },
+      { accent: "american", age: "middle aged", gender: "female" },
+      { accent: "american", age: "young", gender: "female" },
+    ];
     const data = {
       speaker1: speakerData.speaker1,
       speaker2: speakerData.speaker2,
@@ -45,20 +84,31 @@ function PodcastGenerator() {
       speaker2_accent: speakerData.speaker2_accent,
       content: speakerData.link,
     };
-    setIsLoading(true);
-    axios
-      .post(url, data)
-      .then((response) => {
-        // Handle the API response data here (if needed)
-        console.log("Data sent successfully:", response.data);
-        setIsLoading(false);
-        navigate("/podcastDownloader");
-      })
-      .catch((error) => {
-        // Handle any errors that occurred during the API call
-        console.error("Error sending data:", error);
-        setIsLoading(false);
-      });
+    const result = findMatchingCombination(data, availableCombinations);
+    console.log("result : ", result);
+    if (!result.speaker1Matched || !result.speaker2Matched) {
+      alert("Something went wrong, try another combination!!");
+    } else {
+      setIsLoading(true);
+      axios
+        .post(url, data)
+        .then((response) => {
+          // Handle the API response data here (if needed)
+          console.log("Data sent successfully:", response.data);
+          setIsLoading(false);
+          if (response.data.status == "error") {
+            alert("Something went wrong!!");
+          } else {
+            console.log(response.data.status === "success");
+            navigate("/podcastDownloader");
+          }
+        })
+        .catch((error) => {
+          // Handle any errors that occurred during the API call
+          console.error("Error sending data:", error);
+          setIsLoading(false);
+        });
+    }
   };
   return (
     <>
@@ -83,10 +133,10 @@ function PodcastGenerator() {
             {/* Row 2 */}
             <div className="row">
               <div className="col">
-                <div class="input-group flex-nowrap">
+                <div className="input-group flex-nowrap">
                   <textarea
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Your Script"
                     aria-label="yourscript"
                     aria-describedby="addon-wrapping"
@@ -109,10 +159,10 @@ function PodcastGenerator() {
                 <div className="row">
                   <div className="col-2"></div>
                   <div className="col-8 ">
-                    <div class="input-group flex-nowrap my-3">
+                    <div className="input-group flex-nowrap my-3">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Your Link"
                         aria-label="yourlink"
                         aria-describedby="addon-wrapping"
@@ -122,10 +172,10 @@ function PodcastGenerator() {
                       />
                     </div>
                     <div className="col or">OR</div>
-                    <div class="input-group flex-nowrap my-3">
+                    <div className="input-group flex-nowrap my-3">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Your Topic"
                         aria-label="yourtopic"
                         aria-describedby="addon-wrapping"
@@ -142,13 +192,13 @@ function PodcastGenerator() {
                 <div className="row">
                   <div className="col-2"></div>
                   <div className="col-8">
-                    <div class="mb-3">
-                      <label for="minutes" class="form-label">
+                    <div className="mb-3">
+                      <label for="minutes" className="form-label">
                         Length of your podcast
                       </label>
                       <input
                         type="email"
-                        class="form-control"
+                        className="form-control"
                         id="minutes"
                         placeholder="minutes"
                         style={{ backgroundColor: "#FDECEC" }}
@@ -169,13 +219,13 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="speaker1" class="form-label">
+                        <div className="mb-3">
+                          <label for="speaker1" className="form-label">
                             Speaker 1
                           </label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             id="speaker1"
                             placeholder="Name"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -191,13 +241,13 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="speaker2" class="form-label">
+                        <div className="mb-3">
+                          <label for="speaker2" className="form-label">
                             Speaker 2
                           </label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             id="speaker2"
                             placeholder="Name"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -213,13 +263,13 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="speaker3" class="form-label">
+                        <div className="mb-3">
+                          <label for="speaker3" className="form-label">
                             Speaker 3 (Optional)
                           </label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             id="speaker3"
                             placeholder="Name"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -237,12 +287,12 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="gender1" class="form-label">
+                        <div className="mb-3">
+                          <label for="gender1" className="form-label">
                             Gender
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             aria-label="Default select example"
                             id="gender1"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -264,12 +314,12 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="gender2" class="form-label">
+                        <div className="mb-3">
+                          <label for="gender2" className="form-label">
                             Gender
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             aria-label="Default select example"
                             id="gender2"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -291,12 +341,12 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="gender3" class="form-label">
+                        <div className="mb-3">
+                          <label for="gender3" className="form-label">
                             Gender
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             aria-label="Default select example"
                             id="gender3"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -320,12 +370,12 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="age1" class="form-label">
+                        <div className="mb-3">
+                          <label for="age1" className="form-label">
                             Age
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             aria-label="Default select example"
                             id="age1"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -348,12 +398,12 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="age2" class="form-label">
+                        <div className="mb-3">
+                          <label for="age2" className="form-label">
                             Age
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             aria-label="Default select example"
                             id="age2"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -376,12 +426,12 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="age3" class="form-label">
+                        <div className="mb-3">
+                          <label for="age3" className="form-label">
                             Age
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             aria-label="Default select example"
                             id="age3"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -406,12 +456,12 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="accent1" class="form-label">
+                        <div className="mb-3">
+                          <label for="accent1" className="form-label">
                             Accent
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             aria-label="Default select example"
                             id="accent1"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -436,12 +486,12 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="accent2" class="form-label">
+                        <div className="mb-3">
+                          <label for="accent2" className="form-label">
                             Accent
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             aria-label="Default select example"
                             id="accent2"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -466,12 +516,12 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="accent3" class="form-label">
+                        <div className="mb-3">
+                          <label for="accent3" className="form-label">
                             Accent
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             aria-label="Default select example"
                             id="accent3"
                             style={{ backgroundColor: "#FDECEC" }}
