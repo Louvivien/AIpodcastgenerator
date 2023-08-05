@@ -141,7 +141,6 @@ function PodcastGenerator() {
     const url = "send_content";
     // const url = process.env.REACT_APP_BASE_URL + 'send_content';
 
-
     const data = {
       speaker1: speakerData.speaker1,
       speaker2: speakerData.speaker2,
@@ -155,20 +154,31 @@ function PodcastGenerator() {
       speaker2_voice_name: speakerData.speaker2_voice_name,
       content: speakerData.link,
     };
-    setIsLoading(true);
-    axios
-      .post(url, data)
-      .then((response) => {
-        // Handle the API response data here (if needed)
-        console.log("Data sent successfully:", response.data);
-        setIsLoading(false);
-        navigate("/podcastDownloader");
-      })
-      .catch((error) => {
-        // Handle any errors that occurred during the API call
-        console.error("Error sending data:", error);
-        setIsLoading(false);
-      });
+    const result = findMatchingCombination(data, availableCombinations);
+    console.log("result : ", result);
+    if (!result.speaker1Matched || !result.speaker2Matched) {
+      alert("Something went wrong, try another combination!!");
+    } else {
+      setIsLoading(true);
+      axios
+        .post(url, data)
+        .then((response) => {
+          // Handle the API response data here (if needed)
+          console.log("Data sent successfully:", response.data);
+          setIsLoading(false);
+          if (response.data.status == "error") {
+            alert("Something went wrong!!");
+          } else {
+            console.log(response.data.status === "success");
+            navigate("/podcastDownloader");
+          }
+        })
+        .catch((error) => {
+          // Handle any errors that occurred during the API call
+          console.error("Error sending data:", error);
+          setIsLoading(false);
+        });
+    }
   };
   return (
     <>
@@ -193,10 +203,10 @@ function PodcastGenerator() {
             {/* Row 2 */}
             <div className="row">
               <div className="col">
-                <div class="input-group flex-nowrap">
+                <div className="input-group flex-nowrap">
                   <textarea
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Your Script"
                     aria-label="yourscript"
                     aria-describedby="addon-wrapping"
@@ -219,10 +229,10 @@ function PodcastGenerator() {
                 <div className="row">
                   <div className="col-2"></div>
                   <div className="col-8 ">
-                    <div class="input-group flex-nowrap my-3">
+                    <div className="input-group flex-nowrap my-3">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Your Link"
                         aria-label="yourlink"
                         aria-describedby="addon-wrapping"
@@ -232,10 +242,10 @@ function PodcastGenerator() {
                       />
                     </div>
                     <div className="col or">OR</div>
-                    <div class="input-group flex-nowrap my-3">
+                    <div className="input-group flex-nowrap my-3">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Your Topic"
                         aria-label="yourtopic"
                         aria-describedby="addon-wrapping"
@@ -252,13 +262,13 @@ function PodcastGenerator() {
                 <div className="row">
                   <div className="col-2"></div>
                   <div className="col-8">
-                    <div class="mb-3">
-                      <label for="minutes" class="form-label">
+                    <div className="mb-3">
+                      <label for="minutes" className="form-label">
                         Length of your podcast
                       </label>
                       <input
                         type="email"
-                        class="form-control"
+                        className="form-control"
                         id="minutes"
                         placeholder="minutes"
                         style={{ backgroundColor: "#FDECEC" }}
@@ -279,13 +289,13 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="speaker1" class="form-label">
+                        <div className="mb-3">
+                          <label for="speaker1" className="form-label">
                             Speaker 1
                           </label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             id="speaker1"
                             placeholder="Name"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -301,13 +311,13 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="speaker2" class="form-label">
+                        <div className="mb-3">
+                          <label for="speaker2" className="form-label">
                             Speaker 2
                           </label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             id="speaker2"
                             placeholder="Name"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -323,13 +333,13 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="speaker3" class="form-label">
+                        <div className="mb-3">
+                          <label for="speaker3" className="form-label">
                             Speaker 3 (Optional)
                           </label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             id="speaker3"
                             placeholder="Name"
                             style={{ backgroundColor: "#FDECEC" }}
@@ -348,14 +358,7 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="gender1" class="form-label">
-                            Voice
-                          </label>
-                          <VoiceSelect
-                            onChange={handleSpeakerChange} 
-                            field_name='speaker1_voice_name'
-                          />
+
                         </div>
                       </div>
                       <div className="col-2"></div>
@@ -365,14 +368,7 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-                        <div class="mb-3">
-                          <label for="gender2" class="form-label">
-                            Voice
-                          </label>
-                            <VoiceSelect
-                              onChange={handleSpeakerChange}
-                              field_name='speaker2_voice_name'
-                            />
+
                         </div>
                       </div>
                       <div className="col-2"></div>

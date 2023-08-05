@@ -6,9 +6,9 @@ function Header() {
   return (
     <>
       <div id="header">
-        <nav class="navbar navbar-expand-lg  mb-5">
-          <div class="container-sm-fluid container-md">
-            <a class="navbar-brand">
+        <nav className="navbar navbar-expand-lg  mb-5">
+          <div className="container-sm-fluid container-md">
+            <a className="navbar-brand">
               <div>
                 <Link to="/" style={{ textDecoration: "none" }}>
                   <img src={plane} className="plane" />
@@ -18,7 +18,7 @@ function Header() {
               </div>
             </a>
             <button
-              class="navbar-toggler"
+              className="navbar-toggler"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#navbarNavAltMarkup"
@@ -26,12 +26,12 @@ function Header() {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              <span class="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav ms-auto">
+            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div className="navbar-nav ms-auto">
                 <a
-                  class="nav-link active"
+                  className="nav-link active"
                   aria-current="page"
                   href="#"
                   style={{
@@ -49,7 +49,7 @@ function Header() {
                   Signup
                 </a>
                 <a
-                  class="nav-link"
+                  className="nav-link"
                   href="#"
                   style={{
                     cursor: "pointer",
@@ -65,7 +65,7 @@ function Header() {
                   About
                 </a>
                 <a
-                  class="nav-link"
+                  className="nav-link"
                   href="#"
                   style={{
                     cursor: "pointer",
