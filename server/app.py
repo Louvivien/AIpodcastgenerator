@@ -70,9 +70,10 @@ def send_content():
       print(result)
 
       response = generate_audio(result, data['speaker1'], data['speaker2'],
-                     data['speaker1_age'], data['speaker2_age'],
-                     data['speaker1_gender'], data['speaker2_gender'],
-                     data['speaker1_accent'], data['speaker2_accent'])
+                     data.get('speaker1_age'), data.get('speaker2_age'),
+                     data.get('speaker1_gender'), data.get('speaker2_gender'),
+                     data.get('speaker1_accent'), data.get('speaker2_accent'),
+                     data.get('speaker1_voice_name'), data.get('speaker2_voice_name'))
 
       # Return the result from the askGPT function
       if response:
@@ -104,10 +105,12 @@ def send_content():
       result = askGPT(prompt)
 
       print(result)
+
       response = generate_audio(result, data['speaker1'], data['speaker2'],
-                     data['speaker1_age'], data['speaker2_age'],
-                     data['speaker1_gender'], data['speaker2_gender'],
-                     data['speaker1_accent'], data['speaker2_accent'])
+                     data.get('speaker1_age'), data.get('speaker2_age'),
+                     data.get('speaker1_gender'), data.get('speaker2_gender'),
+                     data.get('speaker1_accent'), data.get('speaker2_accent'),
+                     data.get('speaker1_voice_name'), data.get('speaker2_voice_name'))
 
       if response:
           return jsonify({'status': 'success', 'result': result})
@@ -128,6 +131,20 @@ def download_audio():
     # Send the file-like object as a response with appropriate headers
     return send_file(audio_file_path, mimetype='audio/mp3', as_attachment=True)
 
+
+@cross_origin()
+@app.route('/voices', methods=['GET'])
+def get_voices():
+
+    data = get_all_voices()
+    return jsonify(data.get('voices'))
+
+@cross_origin()
+@app.route('/voices/<voice_id>', methods=['GET'])
+def get_voice_by_id(voice_id):
+
+    data = get_voice(voice_id)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
