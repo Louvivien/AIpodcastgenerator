@@ -54,6 +54,26 @@ def get_all_voices():
     else:
         return (f"Failed to retrieve data. Status code: {response.status_code}")
 
+def get_voice(voice_id):
+    logging.info("Getting voice...")
+
+   
+    url = f'{elevenlabs_url}' + 'voices/' + f'{voice_id}'
+    headers = {
+        'accept': 'application/json',
+        'xi-api-key': elevenlabs_key
+    }
+
+    response = requests.get(url, headers=headers)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        data = response.json()
+        # Now you can work with the JSON response 'data'
+        return data
+    else:
+        return (f"Failed to retrieve data. Status code: {response.status_code}")
+
 
 def filter_voice(gender, age, accent):
     '''
@@ -89,13 +109,21 @@ def concatenate_audio(audio_parts):
 def generate_audio(script, speaker1, speaker2, 
                    speaker1_age, speaker2_age,
                    speaker1_gender, speaker2_gender,
-                   speaker1_accent, speaker2_accent):
+                   speaker1_accent, speaker2_accent,
+                   speaker1_voice, speaker2_voice):
     try:
         logging.info("Generating audio...")
         transcript = script
 
-        sp1_voice = speaker1.lower() if speaker1.lower() in CUSTOM_VOICE else filter_voice(speaker1_gender, speaker1_age, speaker1_accent)['name']
-        sp2_voice = speaker2.lower() if speaker2.lower() in CUSTOM_VOICE else filter_voice(speaker2_gender, speaker2_age, speaker2_accent)['name']
+        if speaker1_voice:
+            sp1_voice = speaker1_voice
+        else: 
+            sp1_voice = speaker1.lower() if speaker1.lower() in CUSTOM_VOICE else filter_voice(speaker1_gender, speaker1_age, speaker1_accent)['name']
+
+        if speaker2_voice:
+            sp2_voice = speaker2_voice
+        else:
+            sp2_voice = speaker2.lower() if speaker2.lower() in CUSTOM_VOICE else filter_voice(speaker2_gender, speaker2_age, speaker2_accent)['name']
 
         # Split the transcript into parts for speaker1 and speaker2
         parts = re.split(fr'({speaker1.title()}:|{speaker2.title()}:)', transcript)
