@@ -139,5 +139,12 @@ def get_voices():
     data = get_all_voices()
     return jsonify(data.get('voices'))
 
+
+@app.route('/voices/<voice_id>', methods=['GET'])
+def get_voice_by_id(voice_id):
+
+    data = get_voice(voice_id)
+    return jsonify(data)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

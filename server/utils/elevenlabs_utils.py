@@ -54,6 +54,26 @@ def get_all_voices():
     else:
         return (f"Failed to retrieve data. Status code: {response.status_code}")
 
+def get_voice(voice_id):
+    logging.info("Getting voice...")
+
+   
+    url = f'{elevenlabs_url}' + 'voices/' + f'{voice_id}'
+    headers = {
+        'accept': 'application/json',
+        'xi-api-key': elevenlabs_key
+    }
+
+    response = requests.get(url, headers=headers)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        data = response.json()
+        # Now you can work with the JSON response 'data'
+        return data
+    else:
+        return (f"Failed to retrieve data. Status code: {response.status_code}")
+
 
 def filter_voice(gender, age, accent):
     '''
