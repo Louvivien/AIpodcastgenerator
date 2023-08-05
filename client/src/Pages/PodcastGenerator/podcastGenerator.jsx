@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
 import mic from "../../Assets/mic.png";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
-import Select from 'react-select';
-import { FaPlay, FaPause } from 'react-icons/fa';
-
 
 const spkData = {
   script: "",
@@ -25,122 +21,58 @@ const spkData = {
   speaker1_accent: "",
   speaker2_accent: "",
   // speaker3_accent: "",
-  speaker1_voice_name: "",
-  speaker2_voice_name: "",
 };
-
-function VoiceSelect({onChange, field_name}) {
-
-  const base_url = "voices";
-  const [voices, setVoices] = useState([]);
-
-  useEffect(() => {
-    const fetchVoices = async () => {
-      const response = await axios.get(base_url);
-      setVoices(response.data.map(voice => ({
-        value: voice.name,
-        label: voice.name,
-        age: voice.labels.age,
-        gender: voice.labels.gender,
-        accent: voice.labels.accent,
-        name: field_name,
-        description: voice.labels.description,
-        usecase: voice.labels['use case'],
-        id: voice.voice_id
-      })));
-    }
-    fetchVoices();
-  }, []);
-
-  const playAudio = async (id) => {
-    const response = await axios(base_url + "/" +id);
-    const audioBlob = response.data;
-    const audioUrl = audioBlob.preview_url;
-    const audio = new Audio(audioUrl);
-    audio.play();
-  }
-
-const formatOptionLabel = ({label, age, gender, accent, description, usecase, id}) => (
-  <div>
-    <div style={{display: 'flex', alignItems: 'center'}}>
-      <div>{label} </div>
-      <button 
-        onClick={() => playAudio(id)}
-        style={{marginRight: '10px'}}
-      >
-      <FaPlay /><FaPause />
-      </button>
-
-    </div>
-
-    <div style={{display: 'flex'}}>
-      <div style={{
-        fontSize: '14px',
-        borderRadius: '15px',
-        backgroundColor: '#7F59E2',
-        padding: '5px',
-        marginRight: '5px'
-      }}>
-        {age}
-      </div>
-
-      <div style={{
-        fontSize: '14px',
-        borderRadius: '15px', 
-        backgroundColor: '#F07688',
-        padding: '5px',
-        marginRight: '5px'
-      }}>
-        {gender}
-      </div>
-
-      <div style={{
-        fontSize: '14px',
-        borderRadius: '15px',
-        backgroundColor: '#11B782',
-        padding: '5px'  
-      }}>
-        {accent}
-      </div>
-      
-    </div>
-      <div style={{
-        fontSize: '12px',
-        padding: '5px'  
-      }}>
-        {description} - {usecase}
-      </div>
-
-  </div>
-);
-
-  return (
-    <Select 
-      name={field_name}
-      options={voices}
-      formatOptionLabel={formatOptionLabel}
-      onChange={onChange}
-    />
-  );
-}
-
 function PodcastGenerator() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [speakerData, setSpeakerData] = useState(spkData);
-  
   const handleChange = (e) => {
     setSpeakerData((s) => ({ ...s, [e.target.name]: e.target.value }));
-  };
-
-  const handleSpeakerChange = (e) => {
-    setSpeakerData((s) => ({ ...s, [e.name]: e.value }));
+    console.log(speakerData);
   };
 
   const podcastGenerateHandler = () => {
     const url = "send_content";
     // const url = process.env.REACT_APP_BASE_URL + 'send_content';
+    function findMatchingCombination(data, availableCombinations) {
+      // Step 1: Create a lookup map for the available combinations
+      const combinationsMap = {};
+      for (const combination of availableCombinations) {
+        const key = `${combination.age}-${combination.gender}-${combination.accent}`;
+        combinationsMap[key] = true;
+      }
 
+      // Step 2: Extract the speaker data from the 'data' object
+      const speaker1Key = `${data.speaker1_age}-${data.speaker1_gender}-${data.speaker1_accent}`;
+      const speaker2Key = `${data.speaker2_age}-${data.speaker2_gender}-${data.speaker2_accent}`;
+
+      // Step 3: Check if the speaker data matches any available combination
+      const speaker1Matched = combinationsMap[speaker1Key] === true;
+      const speaker2Matched = combinationsMap[speaker2Key] === true;
+
+      return { speaker1Matched, speaker2Matched };
+    }
+
+    const availableCombinations = [
+      { accent: "", age: "middle aged", gender: "male" },
+      { accent: "american", age: "young", gender: "male" },
+      { accent: "", age: "", gender: "" },
+      { accent: "irish", age: "old", gender: "male" },
+      { accent: "american-southern", age: "young", gender: "female" },
+      { accent: "english-swedish", age: "young", gender: "female" },
+      { accent: "british", age: "middle aged", gender: "male" },
+      { accent: "american-irish", age: "young", gender: "male" },
+      { accent: "british", age: "young", gender: "female" },
+      { accent: "american", age: "old", gender: "male" },
+      { accent: "british-essex", age: "young", gender: "male" },
+      { accent: "english-italian", age: "young", gender: "male" },
+      { accent: "english-swedish", age: "middle aged", gender: "female" },
+      { accent: "australian", age: "middle aged", gender: "male" },
+      { accent: "american", age: "middle aged", gender: "male" },
+      { accent: "australian", age: "old", gender: "male" },
+      { accent: "american", age: "middle aged", gender: "female" },
+      { accent: "american", age: "young", gender: "female" },
+    ];
     const data = {
       speaker1: speakerData.speaker1,
       speaker2: speakerData.speaker2,
@@ -150,8 +82,6 @@ function PodcastGenerator() {
       speaker2_gender: speakerData.speaker2_gender,
       speaker1_accent: speakerData.speaker1_accent,
       speaker2_accent: speakerData.speaker2_accent,
-      speaker1_voice_name: speakerData.speaker1_voice_name,
-      speaker2_voice_name: speakerData.speaker2_voice_name,
       content: speakerData.link,
     };
     const result = findMatchingCombination(data, availableCombinations);
@@ -352,13 +282,29 @@ function PodcastGenerator() {
                     </div>
                   </div> */}
                 </div>
-
                 <div className="row">
                   <div className="col-sm-12 col-md-6">
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-
+                        <div className="mb-3">
+                          <label for="gender1" className="form-label">
+                            Gender
+                          </label>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            id="gender1"
+                            style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker1_gender"
+                            onChange={handleChange}
+                          >
+                            <option value="" selected>
+                              gender
+                            </option>
+                            <option value="male">male</option>
+                            <option value="female">female</option>
+                          </select>
                         </div>
                       </div>
                       <div className="col-2"></div>
@@ -368,14 +314,235 @@ function PodcastGenerator() {
                     <div className="row">
                       <div className="col-2"></div>
                       <div className="col-8">
-
+                        <div className="mb-3">
+                          <label for="gender2" className="form-label">
+                            Gender
+                          </label>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            id="gender2"
+                            style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker2_gender"
+                            onChange={handleChange}
+                          >
+                            <option value="" selected>
+                              gender
+                            </option>
+                            <option value="male">male</option>
+                            <option value="female">female</option>
+                          </select>
                         </div>
                       </div>
                       <div className="col-2"></div>
                     </div>
                   </div>
+                  {/* <div className="col-sm-12 col-md-4">
+                    <div className="row">
+                      <div className="col-2"></div>
+                      <div className="col-8">
+                        <div className="mb-3">
+                          <label for="gender3" className="form-label">
+                            Gender
+                          </label>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            id="gender3"
+                            style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker3_gender"
+                            onChange={handleChange}
+                          >
+                            <option value="" selected>
+                              gender
+                            </option>
+                            <option value="male">male</option>
+                            <option value="female">female</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-2"></div>
+                    </div>
+                  </div> */}
                 </div>
-
+                <div className="row">
+                  <div className="col-sm-12 col-md-6">
+                    <div className="row">
+                      <div className="col-2"></div>
+                      <div className="col-8">
+                        <div className="mb-3">
+                          <label for="age1" className="form-label">
+                            Age
+                          </label>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            id="age1"
+                            style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker1_age"
+                            onChange={handleChange}
+                          >
+                            <option value="" selected>
+                              age
+                            </option>
+                            <option value="young">young</option>
+                            <option value="old">old</option>
+                            <option value="middle aged">middle aged</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-2"></div>
+                    </div>
+                  </div>
+                  <div className="col-sm-12 col-md-6">
+                    <div className="row">
+                      <div className="col-2"></div>
+                      <div className="col-8">
+                        <div className="mb-3">
+                          <label for="age2" className="form-label">
+                            Age
+                          </label>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            id="age2"
+                            style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker2_age"
+                            onChange={handleChange}
+                          >
+                            <option value="" selected>
+                              age
+                            </option>
+                            <option value="young">young</option>
+                            <option value="old">old</option>
+                            <option value="middle aged">middle aged</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-2"></div>
+                    </div>
+                  </div>
+                  {/* <div className="col-sm-12 col-md-4">
+                    <div className="row">
+                      <div className="col-2"></div>
+                      <div className="col-8">
+                        <div className="mb-3">
+                          <label for="age3" className="form-label">
+                            Age
+                          </label>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            id="age3"
+                            style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker3_age"
+                            onChange={handleChange}
+                          >
+                            <option value="" selected>
+                              age
+                            </option>
+                            <option value="young">young</option>
+                            <option value="old">old</option>
+                            <option value="middle aged">middle aged</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-2"></div>
+                    </div>
+                  </div> */}
+                </div>
+                <div className="row">
+                  <div className="col-sm-12 col-md-6">
+                    <div className="row">
+                      <div className="col-2"></div>
+                      <div className="col-8">
+                        <div className="mb-3">
+                          <label for="accent1" className="form-label">
+                            Accent
+                          </label>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            id="accent1"
+                            style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker1_accent"
+                            onChange={handleChange}
+                          >
+                            <option value="" selected>
+                              Accent
+                            </option>
+                            <option value="american">american</option>
+                            <option value="british">british</option>
+                            <option value="australian">australian</option>
+                            <option value="indian">indian</option>
+                            <option value="african">african</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-2"></div>
+                    </div>
+                  </div>
+                  <div className="col-sm-12 col-md-6">
+                    <div className="row">
+                      <div className="col-2"></div>
+                      <div className="col-8">
+                        <div className="mb-3">
+                          <label for="accent2" className="form-label">
+                            Accent
+                          </label>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            id="accent2"
+                            style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker2_accent"
+                            onChange={handleChange}
+                          >
+                            <option value="" selected>
+                              Accent
+                            </option>
+                            <option value="american">american</option>
+                            <option value="british">british</option>
+                            <option value="australian">australian</option>
+                            <option value="indian">indian</option>
+                            <option value="african">african</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-2"></div>
+                    </div>
+                  </div>
+                  {/* <div className="col-sm-12 col-md-4">
+                    <div className="row">
+                      <div className="col-2"></div>
+                      <div className="col-8">
+                        <div className="mb-3">
+                          <label for="accent3" className="form-label">
+                            Accent
+                          </label>
+                          <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            id="accent3"
+                            style={{ backgroundColor: "#FDECEC" }}
+                            name="speaker3_accent"
+                            onChange={handleChange}
+                          >
+                            <option value="" selected>
+                              Accent
+                            </option>
+                            <option value="american">american</option>
+                            <option value="british">british</option>
+                            <option value="australian">australian</option>
+                            <option value="indian">indian</option>
+                            <option value="african">african</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-2"></div>
+                    </div>
+                  </div> */}
+                </div>
               </div>
             </div>
             {/* Row 6 */}
