@@ -3,6 +3,9 @@ import mic from "../../Assets/mic.png";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import Select from 'react-select';
+import { FaPlay, FaPause } from 'react-icons/fa';
+
 
 const spkData = {
   script: "",
@@ -21,14 +24,115 @@ const spkData = {
   speaker1_accent: "",
   speaker2_accent: "",
   // speaker3_accent: "",
+  speaker1_voice_name: "",
+  speaker2_voice_name: "",
 };
+
+function VoiceSelect({onChange, field_name}) {
+
+  const base_url = "voices";
+  const [voices, setVoices] = useState([]);
+
+  useEffect(() => {
+    const fetchVoices = async () => {
+      const response = await axios.get(base_url);
+      setVoices(response.data.map(voice => ({
+        value: voice.name,
+        label: voice.name,
+        age: voice.labels.age,
+        gender: voice.labels.gender,
+        accent: voice.labels.accent,
+        name: field_name,
+        description: voice.labels.description,
+        usecase: voice.labels['use case'],
+        id: voice.voice_id
+      })));
+    }
+    fetchVoices();
+  }, []);
+
+  const playAudio = async (id) => {
+    const response = await axios(base_url + "/" +id);
+    const audioBlob = response.data;
+    const audioUrl = audioBlob.preview_url;
+    const audio = new Audio(audioUrl);
+    audio.play();
+  }
+
+const formatOptionLabel = ({label, age, gender, accent, description, usecase, id}) => (
+  <div>
+    <div style={{display: 'flex', alignItems: 'center'}}>
+      <div>{label} </div>
+      <button 
+        onClick={() => playAudio(id)}
+        style={{marginRight: '10px'}}
+      >
+      <FaPlay /><FaPause />
+      </button>
+
+    </div>
+
+    <div style={{display: 'flex'}}>
+      <div style={{
+        fontSize: '14px',
+        borderRadius: '15px',
+        backgroundColor: '#7F59E2',
+        padding: '5px',
+        marginRight: '5px'
+      }}>
+        {age}
+      </div>
+
+      <div style={{
+        fontSize: '14px',
+        borderRadius: '15px', 
+        backgroundColor: '#F07688',
+        padding: '5px',
+        marginRight: '5px'
+      }}>
+        {gender}
+      </div>
+
+      <div style={{
+        fontSize: '14px',
+        borderRadius: '15px',
+        backgroundColor: '#11B782',
+        padding: '5px'  
+      }}>
+        {accent}
+      </div>
+      
+    </div>
+      <div style={{
+        fontSize: '12px',
+        padding: '5px'  
+      }}>
+        {description} - {usecase}
+      </div>
+
+  </div>
+);
+
+  return (
+    <Select 
+      name={field_name}
+      options={voices}
+      formatOptionLabel={formatOptionLabel}
+      onChange={onChange}
+    />
+  );
+}
+
 function PodcastGenerator() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [speakerData, setSpeakerData] = useState(spkData);
   const handleChange = (e) => {
     setSpeakerData((s) => ({ ...s, [e.target.name]: e.target.value }));
-    console.log(speakerData);
+  };
+
+  const handleSpeakerChange = (e) => {
+    setSpeakerData((s) => ({ ...s, [e.name]: e.value }));
   };
 
   const podcastGenerateHandler = () => {
@@ -43,6 +147,8 @@ function PodcastGenerator() {
       speaker2_gender: speakerData.speaker2_gender,
       speaker1_accent: speakerData.speaker1_accent,
       speaker2_accent: speakerData.speaker2_accent,
+      speaker1_voice_name: speakerData.speaker1_voice_name,
+      speaker2_voice_name: speakerData.speaker2_voice_name,
       content: speakerData.link,
     };
     setIsLoading(true);
@@ -241,20 +347,10 @@ function PodcastGenerator() {
                           <label for="gender1" class="form-label">
                             Gender
                           </label>
-                          <select
-                            class="form-select"
-                            aria-label="Default select example"
-                            id="gender1"
-                            style={{ backgroundColor: "#FDECEC" }}
-                            name="speaker1_gender"
-                            onChange={handleChange}
-                          >
-                            <option value="" selected>
-                              gender
-                            </option>
-                            <option value="male">male</option>
-                            <option value="female">female</option>
-                          </select>
+                          <VoiceSelect
+                            onChange={handleSpeakerChange} 
+                            field_name='speaker1_voice_name'
+                          />
                         </div>
                       </div>
                       <div className="col-2"></div>
@@ -268,20 +364,10 @@ function PodcastGenerator() {
                           <label for="gender2" class="form-label">
                             Gender
                           </label>
-                          <select
-                            class="form-select"
-                            aria-label="Default select example"
-                            id="gender2"
-                            style={{ backgroundColor: "#FDECEC" }}
-                            name="speaker2_gender"
-                            onChange={handleChange}
-                          >
-                            <option value="" selected>
-                              gender
-                            </option>
-                            <option value="male">male</option>
-                            <option value="female">female</option>
-                          </select>
+                            <VoiceSelect
+                              onChange={handleSpeakerChange}
+                              field_name='speaker2_voice_name'
+                            />
                         </div>
                       </div>
                       <div className="col-2"></div>
